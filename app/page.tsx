@@ -1,4 +1,11 @@
 "use server";
+import ShowData from "./components/ShowData";
+
+export interface dataType {
+  sunrise: string;
+  sunset: string;
+}
+
 export default async function Home() {
   async function getData() {
     const url =
@@ -13,7 +20,12 @@ export default async function Home() {
     }
   }
 
-  const data = await getData();
+  const response = await getData();
+  const data: dataType = {
+    sunrise: response.results.sunrise,
+    sunset: response.results.sunset,
+  };
+
   console.log(data);
 
   return (
@@ -22,7 +34,9 @@ export default async function Home() {
         <h1 className="text-2xl">daylight length visualisation</h1>
       </header>
       <div className="flex justify-center items-center size-full">
-        <div className="size-5/6 bg-amber-600">hello</div>
+        <div className="size-5/6 bg-amber-600">
+          <ShowData data={data} />
+        </div>
       </div>
     </main>
   );
