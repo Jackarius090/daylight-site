@@ -1,5 +1,6 @@
 "use server";
 import ShowData from "./components/ShowData";
+import { parse, differenceInMinutes } from "date-fns";
 
 export interface dataType {
   sunrise: string;
@@ -26,7 +27,13 @@ export default async function Home() {
     sunset: response.results.sunset,
   };
 
+  const start = parse(data.sunrise, "h:mm:ss a", new Date());
+  const end = parse(data.sunset, "h:mm:ss a", new Date());
+
+  const diffMinutes = differenceInMinutes(end, start);
+
   console.log(data);
+  console.log("diff in mins:", diffMinutes);
 
   return (
     <main className="w-screen h-screen">
