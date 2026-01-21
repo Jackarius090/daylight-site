@@ -3,6 +3,7 @@ import ShowData from "./components/ShowData";
 import { parse, differenceInMinutes } from "date-fns";
 
 export interface dataType {
+  dayLength: number;
   sunrise: string;
   sunset: string;
 }
@@ -22,15 +23,17 @@ export default async function Home() {
   }
 
   const response = await getData();
+
+  const start = parse(response.results.sunrise, "h:mm:ss a", new Date());
+  const end = parse(response.results.sunset, "h:mm:ss a", new Date());
+
+  const diffMinutes = differenceInMinutes(end, start);
+
   const data: dataType = {
+    dayLength: diffMinutes,
     sunrise: response.results.sunrise,
     sunset: response.results.sunset,
   };
-
-  const start = parse(data.sunrise, "h:mm:ss a", new Date());
-  const end = parse(data.sunset, "h:mm:ss a", new Date());
-
-  const diffMinutes = differenceInMinutes(end, start);
 
   console.log(data);
   console.log("diff in mins:", diffMinutes);
