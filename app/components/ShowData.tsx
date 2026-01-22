@@ -1,7 +1,7 @@
 "use client";
-import { dataType } from "../page";
+import { dataTypeDay } from "../page";
 
-export default function ShowData({ data }: { data: dataType }) {
+export default function ShowData({ data }: { data: dataTypeDay }) {
   return (
     <div>
       <div>{data.sunrise}</div>

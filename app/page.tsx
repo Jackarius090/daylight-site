@@ -2,13 +2,29 @@
 import ShowData from "./components/ShowData";
 import { parse, differenceInMinutes } from "date-fns";
 
-export interface dataType {
+export interface dataTypeDay {
   dayLength: number;
   sunrise: string;
   sunset: string;
 }
 
+export type DataTypeMonth = dataTypeDay[];
+
 export default async function Home() {
+  function getDatesInMonth(year: number, month: number) {
+    const dates = [];
+    const date = new Date(year, month - 1, 1);
+
+    while (date.getMonth() === month - 1) {
+      dates.push(date.toISOString().slice(0, 10));
+      date.setDate(date.getDate() + 1);
+    }
+    return dates;
+  }
+
+  // get January dates
+  console.log(getDatesInMonth(2026, 1));
+
   async function getData() {
     const url =
       "https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=2026-01-18";
@@ -29,7 +45,7 @@ export default async function Home() {
 
   const diffMinutes = differenceInMinutes(end, start);
 
-  const data: dataType = {
+  const data: dataTypeDay = {
     dayLength: diffMinutes,
     sunrise: response.results.sunrise,
     sunset: response.results.sunset,
