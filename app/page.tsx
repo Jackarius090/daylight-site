@@ -11,10 +11,10 @@ export interface dataTypeDay {
 export type DataTypeMonth = dataTypeDay[];
 
 export default async function Home() {
-  function getDatesInMonth(year: number, month: number) {
+  function getDatesInMonth(month: number) {
+    const year = 2026;
     const dates = [];
     const date = new Date(year, month - 1, 1);
-
     while (date.getMonth() === month - 1) {
       dates.push(date.toISOString().slice(0, 10));
       date.setDate(date.getDate() + 1);
@@ -23,14 +23,32 @@ export default async function Home() {
   }
 
   // get January dates
-  console.log(getDatesInMonth(2026, 1));
+  // const datesInJanuary = getDatesInMonth(1);
+  // console.log(datesInJanuary);
+
+  // make fetch requests:
+  // const fetchRequestArray = datesInJanuary.map((date) => {
+  //   return fetch(
+  //     `https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=2025-12-31`,
+  //   );
+  // });
+  // console.log(fetchRequestArray);
 
   async function getData() {
-    const url =
-      "https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=2026-01-18";
     try {
-      const response = await fetch(url, { cache: "force-cache" });
+      // const responses = await Promise.all(fetchRequestArray);
+      // console.log(responses);
+      // const data = await Promise.all(
+      //   responses.map((response) => {
+      //     return response.json();
+      //   }),
+      // );
+      const response = await fetch(
+        `https://api.ipgeolocation.io/v2/astronomy?apiKey=${process.env.DAY_LENGTH_API_KEY}&location=copenhagen&elevation=10`,
+      );
       const data = await response.json();
+
+      console.log(data);
       return data;
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -40,19 +58,21 @@ export default async function Home() {
 
   const response = await getData();
 
-  const start = parse(response.results.sunrise, "h:mm:ss a", new Date());
-  const end = parse(response.results.sunset, "h:mm:ss a", new Date());
+  console.log(response);
 
-  const diffMinutes = differenceInMinutes(end, start);
+  // const start = parse(response.results.sunrise, "h:mm:ss a", new Date());
+  // const end = parse(response.results.sunset, "h:mm:ss a", new Date());
 
-  const data: dataTypeDay = {
-    dayLength: diffMinutes,
-    sunrise: response.results.sunrise,
-    sunset: response.results.sunset,
-  };
+  // const diffMinutes = differenceInMinutes(end, start);
 
-  console.log(data);
-  console.log("diff in mins:", diffMinutes);
+  // const data: dataTypeDay = {
+  //   dayLength: diffMinutes,
+  //   sunrise: response.results.sunrise,
+  //   sunset: response.results.sunset,
+  // };
+
+  // console.log(data);
+  // console.log("diff in mins:", diffMinutes);
 
   return (
     <main className="w-screen h-screen">
@@ -61,7 +81,7 @@ export default async function Home() {
       </header>
       <div className="flex justify-center items-center size-full">
         <div className="size-5/6 bg-amber-600">
-          <ShowData data={data} />
+          {/* <ShowData data={data} /> */}
         </div>
       </div>
     </main>
