@@ -11,44 +11,12 @@ export interface dataTypeDay {
 export type DataTypeMonth = dataTypeDay[];
 
 export default async function Home() {
-  function getDatesInMonth(month: number) {
-    const year = 2026;
-    const dates = [];
-    const date = new Date(year, month - 1, 1);
-    while (date.getMonth() === month - 1) {
-      dates.push(date.toISOString().slice(0, 10));
-      date.setDate(date.getDate() + 1);
-    }
-    return dates;
-  }
-
-  // get January dates
-  // const datesInJanuary = getDatesInMonth(1);
-  // console.log(datesInJanuary);
-
-  // make fetch requests:
-  // const fetchRequestArray = datesInJanuary.map((date) => {
-  //   return fetch(
-  //     `https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=2025-12-31`,
-  //   );
-  // });
-  // console.log(fetchRequestArray);
-
   async function getData() {
     try {
-      // const responses = await Promise.all(fetchRequestArray);
-      // console.log(responses);
-      // const data = await Promise.all(
-      //   responses.map((response) => {
-      //     return response.json();
-      //   }),
-      // );
       const response = await fetch(
-        `https://api.ipgeolocation.io/v2/astronomy?apiKey=${process.env.DAY_LENGTH_API_KEY}&location=copenhagen&elevation=10`,
+        `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-07&location=copenhagen&elevation=10`,
       );
       const data = await response.json();
-
-      console.log(data);
       return data;
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -58,7 +26,15 @@ export default async function Home() {
 
   const response = await getData();
 
-  console.log(response);
+  const data = response.astronomy.map((day) => {
+    return {
+      dayLength: day.day_length,
+      sunrise: day.sunrise,
+      sunset: day.sunset,
+    };
+  });
+
+  console.log(data);
 
   // const start = parse(response.results.sunrise, "h:mm:ss a", new Date());
   // const end = parse(response.results.sunset, "h:mm:ss a", new Date());
@@ -81,7 +57,7 @@ export default async function Home() {
       </header>
       <div className="flex justify-center items-center size-full">
         <div className="size-5/6 bg-amber-600">
-          {/* <ShowData data={data} /> */}
+          <ShowData data={data} />
         </div>
       </div>
     </main>
