@@ -3,7 +3,7 @@ import ShowData from "./components/ShowData";
 import { parse, differenceInMinutes } from "date-fns";
 
 export interface dataTypeDay {
-  dayLength: number;
+  day_length: string;
   sunrise: string;
   sunset: string;
 }
@@ -25,10 +25,20 @@ export default async function Home() {
   }
 
   const response = await getData();
+  console.log(response);
 
-  const data = response.astronomy.map((day) => {
+  function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
+    // converts time in format: "HH:MM" to number of minutes.
+    const hours = dayLengthInClockFormat.slice(0, 2);
+    const convertedMinutes = Number(hours) * 60;
+    const minutes = dayLengthInClockFormat.slice(-2);
+    const totalMinutes = convertedMinutes + Number(minutes);
+    return totalMinutes;
+  }
+
+  const data = response.astronomy.map((day: dataTypeDay) => {
     return {
-      dayLength: day.day_length,
+      day_length: convertHoursMinutesToMinutes(day.day_length),
       sunrise: day.sunrise,
       sunset: day.sunset,
     };
