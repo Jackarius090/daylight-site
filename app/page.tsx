@@ -52,7 +52,7 @@ export default async function Home() {
       </header>
       <div className="flex justify-center items-center size-full">
         <div className="size-5/6 bg-amber-600">
-          <ShowData data={data} />
+          <ShowData />
         </div>
       </div>
     </main>
