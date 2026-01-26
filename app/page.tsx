@@ -1,6 +1,5 @@
 "use server";
 import ShowData from "./components/ShowData";
-import { parse, differenceInMinutes } from "date-fns";
 
 export interface dataTypeDay {
   day_length: string;
@@ -14,7 +13,7 @@ export default async function Home() {
   async function getData() {
     try {
       const response = await fetch(
-        `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-07&location=copenhagen&elevation=10`,
+        `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=copenhagen&elevation=10`,
       );
       const data = await response.json();
       return data;
@@ -45,20 +44,6 @@ export default async function Home() {
   });
 
   console.log(data);
-
-  // const start = parse(response.results.sunrise, "h:mm:ss a", new Date());
-  // const end = parse(response.results.sunset, "h:mm:ss a", new Date());
-
-  // const diffMinutes = differenceInMinutes(end, start);
-
-  // const data: dataTypeDay = {
-  //   dayLength: diffMinutes,
-  //   sunrise: response.results.sunrise,
-  //   sunset: response.results.sunset,
-  // };
-
-  // console.log(data);
-  // console.log("diff in mins:", diffMinutes);
 
   return (
     <main className="w-screen h-screen">
