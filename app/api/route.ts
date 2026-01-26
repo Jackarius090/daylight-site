@@ -1,14 +1,35 @@
+import { dataTypeDay } from "../page";
+
 export async function GET(request: Request) {
   console.log("request.url:", request.url);
+
+  function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
+    // converts time in format: "HH:MM" to number of minutes.
+    const hours = dayLengthInClockFormat.slice(0, 2);
+    const convertedMinutes = Number(hours) * 60;
+    const minutes = dayLengthInClockFormat.slice(-2);
+    const totalMinutes = convertedMinutes + Number(minutes);
+    return totalMinutes;
+  }
+
+  let data = null;
 
   try {
     const response = await fetch(
       `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=copenhagen&elevation=10`,
     );
-    const data = await response.json();
-    return Response.json(data);
+    data = await response.json();
   } catch (error) {
     console.error("Failed to fetch data:", error);
     return null;
   }
+
+  data = data.astronomy.map((day: dataTypeDay) => {
+    return {
+      day_length: convertHoursMinutesToMinutes(day.day_length),
+      sunrise: day.sunrise,
+      sunset: day.sunset,
+    };
+  });
+  return Response.json(data);
 }

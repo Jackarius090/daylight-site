@@ -1,5 +1,5 @@
 "use server";
-import ShowData from "./components/ShowData";
+import DataWrapper from "./components/DataWrapper";
 
 export interface dataTypeDay {
   day_length: string;
@@ -52,7 +52,7 @@ export default async function Home() {
       </header>
       <div className="flex justify-center items-center size-full">
         <div className="size-5/6 bg-amber-600">
-          <ShowData />
+          <DataWrapper />
         </div>
       </div>
     </main>
