@@ -1,8 +1,6 @@
 import { dataTypeDay } from "../page";
 
-export async function GET(request: Request) {
-  console.log("request.url:", request.url);
-
+export async function GET() {
   function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
     // converts time in format: "HH:MM" to number of minutes.
     const hours = dayLengthInClockFormat.slice(0, 2);
@@ -21,7 +19,10 @@ export async function GET(request: Request) {
     data = await response.json();
   } catch (error) {
     console.error("Failed to fetch data:", error);
-    return null;
+    return Response.json(
+      { error: "Failed to fetch data" },
+      { status: 500 },
+    );
   }
 
   data = data.astronomy.map((day: dataTypeDay) => {

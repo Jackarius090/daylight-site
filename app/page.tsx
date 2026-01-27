@@ -10,41 +10,6 @@ export interface dataTypeDay {
 export type DataTypeMonth = dataTypeDay[];
 
 export default async function Home() {
-  async function getData() {
-    try {
-      const response = await fetch(
-        `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=copenhagen&elevation=10`,
-      );
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-      return null;
-    }
-  }
-
-  const response = await getData();
-  console.log(response);
-
-  function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
-    // converts time in format: "HH:MM" to number of minutes.
-    const hours = dayLengthInClockFormat.slice(0, 2);
-    const convertedMinutes = Number(hours) * 60;
-    const minutes = dayLengthInClockFormat.slice(-2);
-    const totalMinutes = convertedMinutes + Number(minutes);
-    return totalMinutes;
-  }
-
-  const data = response.astronomy.map((day: dataTypeDay) => {
-    return {
-      day_length: convertHoursMinutesToMinutes(day.day_length),
-      sunrise: day.sunrise,
-      sunset: day.sunset,
-    };
-  });
-
-  console.log(data);
-
   return (
     <main className="w-screen h-screen">
       <header className="flex justify-center">
