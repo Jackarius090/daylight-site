@@ -1,28 +1,29 @@
 import { dataTypeDay } from "../page";
 
-export async function GET() {
-  function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
-    // converts time in format: "HH:MM" to number of minutes.
-    const hours = dayLengthInClockFormat.slice(0, 2);
-    const convertedMinutes = Number(hours) * 60;
-    const minutes = dayLengthInClockFormat.slice(-2);
-    const totalMinutes = convertedMinutes + Number(minutes);
-    return totalMinutes;
-  }
+import { type NextRequest } from "next/server";
+
+function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
+  // converts time in format: "HH:MM" to number of minutes.
+  const hours = dayLengthInClockFormat.slice(0, 2);
+  const convertedMinutes = Number(hours) * 60;
+  const minutes = dayLengthInClockFormat.slice(-2);
+  const totalMinutes = convertedMinutes + Number(minutes);
+  return totalMinutes;
+}
+
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const query = searchParams.get("city");
 
   let data = null;
+  const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=${query}&elevation=10`;
 
   try {
-    const response = await fetch(
-      `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=copenhagen&elevation=10`,
-    );
+    const response = await fetch(url);
     data = await response.json();
   } catch (error) {
     console.error("Failed to fetch data:", error);
-    return Response.json(
-      { error: "Failed to fetch data" },
-      { status: 500 },
-    );
+    return Response.json({ error: "Failed to fetch data" }, { status: 500 });
   }
 
   data = data.astronomy.map((day: dataTypeDay) => {
