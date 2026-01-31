@@ -3,6 +3,7 @@ import { dataTypeDay, DataTypeMonth } from "../page";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import DataGraph from "./DataGraph";
 
 export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
@@ -22,7 +23,8 @@ export default function ShowData() {
 
   return (
     <div>
-      <div className="flex flex-row">
+      <DataGraph />
+      {/* <div className="flex flex-row">
         {days &&
           days.map((day: dataTypeDay, i: number) => {
             return (
@@ -36,7 +38,7 @@ export default function ShowData() {
               </div>
             );
           })}
-      </div>
+      </div> */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
