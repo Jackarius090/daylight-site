@@ -20,10 +20,10 @@ export default function ShowData() {
   });
 
   const days: DataTypeMonth = Array.isArray(data) ? data : [];
-
+  console.log(days);
   return (
     <div>
-      <DataGraph />
+      <DataGraph days={days} />
       {/* <div className="flex flex-row">
         {days &&
           days.map((day: dataTypeDay, i: number) => {

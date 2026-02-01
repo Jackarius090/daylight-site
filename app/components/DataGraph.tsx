@@ -1,3 +1,4 @@
+import { DataTypeMonth } from "../page";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,7 +19,7 @@ ChartJS.register(
   Legend,
 );
 
-export default function DataGraph() {
+export default function DataGraph({ days }: { days: DataTypeMonth }) {
   const options = {
     responsive: true,
     plugins: {
@@ -32,23 +33,15 @@ export default function DataGraph() {
     },
   };
 
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
+  const labels = [...Array(days.length).keys()].map((i) => i + 1);
 
   const data = {
     labels,
     datasets: [
       {
         label: "Dataset 1",
-        data: [1, 3, 4, 5, 6, 7],
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        data: days.map((day) => day.day_length),
+        backgroundColor: "rgba(39, 138, 245, 0.8)",
       },
     ],
   };
