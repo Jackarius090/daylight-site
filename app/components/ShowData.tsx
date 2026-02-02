@@ -22,23 +22,9 @@ export default function ShowData() {
   const days: DataTypeMonth = Array.isArray(data) ? data : [];
   console.log(days);
   return (
-    <div>
+    <div className="m-10">
       <DataGraph days={days} />
-      {/* <div className="flex flex-row">
-        {days &&
-          days.map((day: dataTypeDay, i: number) => {
-            return (
-              <div key={i}>
-                <div
-                  className="bg-blue-700 w-7 p-2"
-                  style={{ height: `${day.day_length}px` }}
-                >
-                  {day.day_length}
-                </div>
-              </div>
-            );
-          })}
-      </div> */}
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
