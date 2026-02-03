@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import DataGraph from "./DataGraph";
+import TimeUnitToggle from "./TimeUnitToggle";
 
 export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
@@ -38,6 +39,7 @@ export default function ShowData() {
           className="border-black w-48 m-4"
         />
       </form>
+      <TimeUnitToggle />
     </div>
   );
 }
