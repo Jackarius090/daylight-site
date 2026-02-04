@@ -1,5 +1,5 @@
 "use client";
-import { dataTypeDay, DataTypeMonth } from "../page";
+import { DataTypeMonth } from "../page";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -8,11 +8,12 @@ import TimeUnitToggle from "./TimeUnitToggle";
 
 export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
+  const [timeUnit, setTimeUnit] = useState("week");
 
   const { data, refetch } = useQuery({
     queryKey: ["data"],
     queryFn: async () => {
-      const response = await fetch(`/api?city=${city}`);
+      const response = await fetch(`/api?city=${city}?timeUnit=${timeUnit}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -39,7 +40,7 @@ export default function ShowData() {
           className="border-black w-48 m-4"
         />
       </form>
-      <TimeUnitToggle />
+      <TimeUnitToggle setTimeUnit={setTimeUnit} />
     </div>
   );
 }

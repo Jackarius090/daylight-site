@@ -46,5 +46,5 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
     ],
   };
 
-  return <Bar data={data} options={options} />;
+  return <Bar width={50} height={20} data={data} options={options} />;
 }
