@@ -13,7 +13,7 @@ export default function ShowData() {
   const { data, refetch } = useQuery({
     queryKey: ["data"],
     queryFn: async () => {
-      const response = await fetch(`/api?city=${city}?timeUnit=${timeUnit}`);
+      const response = await fetch(`/api?city=${city}&timeunit=${timeUnit}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -40,7 +40,7 @@ export default function ShowData() {
           className="border-black w-48 m-4"
         />
       </form>
-      <TimeUnitToggle setTimeUnit={setTimeUnit} />
+      <TimeUnitToggle refetch={refetch} setTimeUnit={setTimeUnit} />
     </div>
   );
 }

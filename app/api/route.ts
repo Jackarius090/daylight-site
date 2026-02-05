@@ -13,10 +13,12 @@ function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get("city");
+  const cityQuery = searchParams.get("city");
+  const timeUnitQuery = searchParams.get("timeunit");
+  console.log("timeUnitQuery:", timeUnitQuery);
 
   let data = null;
-  const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=${query}&elevation=10`;
+  const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=${cityQuery}&elevation=10`;
 
   try {
     const response = await fetch(url);
