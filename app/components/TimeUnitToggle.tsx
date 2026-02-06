@@ -13,6 +13,7 @@ export default function TimeUnitToggle({
     setTimeUnit(newValue);
     refetch();
   }
+
   return (
     <ToggleGroup
       onValueChange={(newValue) => toggleTimeUnit(newValue)}
