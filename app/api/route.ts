@@ -1,4 +1,4 @@
-import { dataTypeDay } from "../page";
+import { dataTypeDay } from "../components/ShowData";
 
 import { type NextRequest } from "next/server";
 
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   if (timeUnitQuery === "day") {
     const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=${cityQuery}&elevation=10`;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, { cache: "force-cache" });
       data = await response.json();
       console.log("data fetched");
     } catch (error) {
@@ -38,6 +38,7 @@ export async function GET(request: NextRequest) {
       urls.push(
         fetch(
           `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${formattedDate}&dateEnd=${formattedDate}&location=${cityQuery}&elevation=10`,
+          { cache: "force-cache" },
         ).then((res) => res.json()),
       );
       // add 1 week to milliseconds

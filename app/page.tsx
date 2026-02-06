@@ -1,14 +1,6 @@
 "use server";
 import DataWrapper from "./components/DataWrapper";
 
-export interface dataTypeDay {
-  day_length: string;
-  sunrise: string;
-  sunset: string;
-}
-
-export type DataTypeMonth = dataTypeDay[];
-
 export default async function Home() {
   return (
     <main className="w-screen h-screen">

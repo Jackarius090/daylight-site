@@ -1,10 +1,17 @@
 "use client";
-import { DataTypeMonth } from "../page";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import DataGraph from "./DataGraph";
 import TimeUnitToggle from "./TimeUnitToggle";
+
+export interface dataTypeDay {
+  day_length: string;
+  sunrise: string;
+  sunset: string;
+}
+
+export type DataTypeMonth = dataTypeDay[];
 
 export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
@@ -13,7 +20,9 @@ export default function ShowData() {
   const { data, refetch } = useQuery({
     queryKey: ["data"],
     queryFn: async () => {
-      const response = await fetch(`/api?city=${city}&timeunit=${timeUnit}`);
+      const response = await fetch(`/api?city=${city}&timeunit=${timeUnit}`, {
+        cache: "force-cache",
+      });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

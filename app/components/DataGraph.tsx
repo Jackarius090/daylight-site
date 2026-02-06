@@ -1,4 +1,4 @@
-import { DataTypeMonth } from "../page";
+import { DataTypeMonth } from "../components/ShowData";
 import {
   Chart as ChartJS,
   CategoryScale,
