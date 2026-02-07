@@ -18,7 +18,7 @@ export default function ShowData() {
   const [timeUnit, setTimeUnit] = useState("week");
 
   const { data, refetch } = useQuery({
-    queryKey: ["data"],
+    queryKey: ["timeUnit", timeUnit],
     queryFn: async () => {
       const response = await fetch(`/api?city=${city}&timeunit=${timeUnit}`, {
         cache: "force-cache",
@@ -31,7 +31,6 @@ export default function ShowData() {
   });
 
   const days: DataTypeMonth = Array.isArray(data) ? data : [];
-  console.log(days);
   return (
     <div className="m-10">
       <DataGraph days={days} />
@@ -49,7 +48,7 @@ export default function ShowData() {
           className="border-black w-48 m-4"
         />
       </form>
-      <TimeUnitToggle refetch={refetch} setTimeUnit={setTimeUnit} />
+      <TimeUnitToggle setTimeUnit={setTimeUnit} />
     </div>
   );
 }

@@ -47,11 +47,9 @@ export async function GET(request: NextRequest) {
     data = await Promise.all(urls);
     data = {
       astronomy: data.map((day) => {
-        console.log(day);
         return day.astronomy[0];
       }),
     };
-    console.log(data);
   }
 
   data = data.astronomy.map((day: dataTypeDay) => {
@@ -61,6 +59,5 @@ export async function GET(request: NextRequest) {
       sunset: day.sunset,
     };
   });
-  console.log(data);
   return Response.json(data);
 }

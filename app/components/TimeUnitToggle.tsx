@@ -1,26 +1,17 @@
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Dispatch, SetStateAction } from "react";
-import { QueryObserverResult } from "@tanstack/react-query";
-import { dataTypeDay } from "../components/ShowData";
 
 export default function TimeUnitToggle({
-  refetch,
   setTimeUnit,
 }: {
-  refetch: () => Promise<QueryObserverResult<dataTypeDay, Error>>;
   setTimeUnit: Dispatch<SetStateAction<string>>;
 }) {
-  function toggleTimeUnit(newValue: string) {
-    setTimeUnit(newValue);
-    refetch();
-  }
-
   return (
     <ToggleGroup
-      onValueChange={(newValue) => toggleTimeUnit(newValue)}
+      onValueChange={(newValue) => setTimeUnit(newValue)}
       variant="outline"
       type="single"
-      defaultValue="day"
+      defaultValue="week"
     >
       <ToggleGroupItem value="day" aria-label="Toggle day">
         Day
