@@ -11,45 +11,51 @@ function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
   return totalMinutes;
 }
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const cityQuery = searchParams.get("city");
-  const timeUnitQuery = searchParams.get("timeunit");
-  console.log("timeUnitQuery:", timeUnitQuery);
+async function fetchData(url: string) {
+  const res = await fetch(url, { cache: "force-cache" });
 
+  if (!res.ok) {
+    throw new Error(`Astronomy API failed: ${res.status}`);
+  }
+
+  return await res.json();
+}
+
+export async function GET(request: NextRequest) {
+  const cityQuery = request.nextUrl.searchParams.get("city");
+  const timeUnitQuery = request.nextUrl.searchParams.get("timeunit");
   let data = null;
 
-  if (timeUnitQuery === "day") {
-    const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=${cityQuery}&elevation=10`;
-    try {
-      const response = await fetch(url, { cache: "force-cache" });
-      data = await response.json();
+  try {
+    if (timeUnitQuery === "day") {
+      const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=${cityQuery}&elevation=10`;
+      data = await fetchData(url);
       console.log("data fetched");
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-      return Response.json({ error: "Failed to fetch data" }, { status: 500 });
+    } else if (timeUnitQuery === "week") {
+      const urls = [];
+      let milliSeconds = Date.now();
+      for (let i = 0; i < 52; i++) {
+        const date = new Date(milliSeconds).toISOString();
+        const formattedDate = date.slice(0, 10);
+        urls.push(
+          fetchData(
+            `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${formattedDate}&dateEnd=${formattedDate}&location=${cityQuery}&elevation=10`,
+          ),
+        );
+        // add 1 week to milliseconds
+        milliSeconds += 604800000;
+      }
+      data = await Promise.all(urls);
+      console.log("data fetched");
+      data = {
+        astronomy: data.map((day) => {
+          return day.astronomy[0];
+        }),
+      };
     }
-  } else if (timeUnitQuery === "week") {
-    const urls = [];
-    let milliSeconds = Date.now();
-    for (let i = 0; i < 52; i++) {
-      const date = new Date(milliSeconds).toISOString();
-      const formattedDate = date.slice(0, 10);
-      urls.push(
-        fetch(
-          `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${formattedDate}&dateEnd=${formattedDate}&location=${cityQuery}&elevation=10`,
-          { cache: "force-cache" },
-        ).then((res) => res.json()),
-      );
-      // add 1 week to milliseconds
-      milliSeconds += 604800000;
-    }
-    data = await Promise.all(urls);
-    data = {
-      astronomy: data.map((day) => {
-        return day.astronomy[0];
-      }),
-    };
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+    return Response.json({ error: "Failed to fetch data" }, { status: 500 });
   }
 
   data = data.astronomy.map((day: dataTypeDay) => {
