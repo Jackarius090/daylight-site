@@ -1,5 +1,5 @@
 "use server";
-import DataWrapper from "./components/DataWrapper";
+import DataWrapper from "../components/DataWrapper";
 
 export default async function Home() {
   return (

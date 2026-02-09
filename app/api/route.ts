@@ -1,4 +1,4 @@
-import { dataTypeDay } from "../components/ShowData";
+import { dataTypeDay } from "../../components/ShowData";
 
 import { type NextRequest } from "next/server";
 
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     } else if (timeUnitQuery === "week") {
       const urls = [];
       let milliSeconds = Date.now();
-      for (let i = 0; i < 52; i++) {
+      for (let i = 0; i < 52; i += 12) {
         const date = new Date(milliSeconds).toISOString();
         const formattedDate = date.slice(0, 10);
         urls.push(
