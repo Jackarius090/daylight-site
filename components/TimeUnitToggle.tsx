@@ -1,4 +1,5 @@
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { Dispatch, SetStateAction } from "react";
 
 export default function TimeUnitToggle({
@@ -7,18 +8,18 @@ export default function TimeUnitToggle({
   setTimeUnit: Dispatch<SetStateAction<string>>;
 }) {
   return (
-    <ToggleGroup
+    <RadioGroup
       onValueChange={(newValue) => setTimeUnit(newValue)}
-      variant="outline"
-      type="single"
       defaultValue="week"
     >
-      <ToggleGroupItem value="day" aria-label="Toggle day">
-        Day
-      </ToggleGroupItem>
-      <ToggleGroupItem value="week" aria-label="Toggle week">
-        Week
-      </ToggleGroupItem>
-    </ToggleGroup>
+      <div className="flex items-center gap-3">
+        <RadioGroupItem value="day" id="day" />
+        <Label htmlFor="day">Day</Label>
+      </div>
+      <div className="flex items-center gap-3">
+        <RadioGroupItem value="week" id="week" />
+        <Label htmlFor="week">Week</Label>
+      </div>
+    </RadioGroup>
   );
 }

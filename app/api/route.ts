@@ -25,7 +25,9 @@ export async function GET(request: NextRequest) {
   const cityQuery = request.nextUrl.searchParams.get("city");
   const timeUnitQuery = request.nextUrl.searchParams.get("timeunit");
   let data = null;
+  console.log("request:", request);
 
+  console.log("fetching data...");
   try {
     if (timeUnitQuery === "day") {
       const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=${cityQuery}&elevation=10`;
@@ -57,6 +59,7 @@ export async function GET(request: NextRequest) {
     console.error("Failed to fetch data:", error);
     return Response.json({ error: "Failed to fetch data" }, { status: 500 });
   }
+  console.log(data);
 
   data = data.astronomy.map((day: dataTypeDay) => {
     return {
