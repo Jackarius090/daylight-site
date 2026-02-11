@@ -7,6 +7,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
@@ -20,15 +21,33 @@ ChartJS.register(
 );
 
 export default function DataGraph({ days }: { days: DataTypeMonth }) {
-  const options = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "minutes of daylight",
+          align: "center",
+        },
+        display: true,
+      },
+      x: {
+        title: {
+          display: true,
+          text: "time (days/weeks)",
+          align: "center",
+        },
+        display: true,
+      },
+    },
     plugins: {
       legend: {
-        position: "top" as const,
+        display: false,
       },
       title: {
         display: true,
-        text: "Chart.js Bar Chart",
+        text: "Daylength over time",
       },
     },
   };
@@ -39,7 +58,6 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
         data: days.map((day) => day.day_length),
         backgroundColor: "rgba(39, 138, 245, 0.8)",
       },
