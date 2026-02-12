@@ -1,4 +1,4 @@
-import { DataTypeMonth } from "../components/ShowData";
+import { DataTypeMonth } from "./ShowData";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,7 +20,7 @@ ChartJS.register(
   Legend,
 );
 
-export default function DataGraph({ days }: { days: DataTypeMonth }) {
+export default function DataGraph2({ days }: { days: DataTypeMonth }) {
   const options: ChartOptions<"bar"> = {
     responsive: true,
     scales: {
@@ -51,12 +51,6 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
       },
     },
   };
-  console.log(days);
-
-  const reformattedDays = days.map((day) => {
-    const noon = 720;
-    return [day.sunrise - noon, day.sunset - noon];
-  });
 
   const labels = [...Array(days.length).keys()].map((i) => i + 1);
 
@@ -64,7 +58,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
     labels,
     datasets: [
       {
-        data: days.map((day) => [day.sunrise, day.sunset]),
+        data: days.map((day) => day.day_length),
         backgroundColor: "rgba(39, 138, 245, 0.8)",
       },
     ],

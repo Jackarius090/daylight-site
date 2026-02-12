@@ -2,13 +2,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import DataGraph2 from "./DataGraph2";
 import DataGraph from "./DataGraph";
 import TimeUnitToggle from "./TimeUnitToggle";
 
 export interface dataTypeDay {
-  day_length: string;
-  sunrise: string;
-  sunset: string;
+  day_length: number;
+  sunrise: number;
+  sunset: number;
 }
 
 export type DataTypeMonth = dataTypeDay[];
@@ -34,6 +35,7 @@ export default function ShowData() {
   return (
     <div className="m-10">
       <DataGraph days={days} />
+      <DataGraph2 days={days} />
 
       <form
         onSubmit={(e) => {

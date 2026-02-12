@@ -64,9 +64,10 @@ export async function GET(request: NextRequest) {
   data = data.astronomy.map((day: dataTypeDay) => {
     return {
       day_length: convertHoursMinutesToMinutes(day.day_length),
-      sunrise: day.sunrise,
-      sunset: day.sunset,
+      sunrise: convertHoursMinutesToMinutes(day.sunrise),
+      sunset: convertHoursMinutesToMinutes(day.sunset),
     };
   });
+  console.log("data:", data);
   return Response.json(data);
 }
