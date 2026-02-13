@@ -11,6 +11,12 @@ function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
   return totalMinutes;
 }
 
+interface ApiDayResponse {
+  day_length: string;
+  sunrise: string;
+  sunset: string;
+}
+
 async function fetchData(url: string) {
   const res = await fetch(url, { cache: "force-cache" });
 
@@ -59,15 +65,17 @@ export async function GET(request: NextRequest) {
     console.error("Failed to fetch data:", error);
     return Response.json({ error: "Failed to fetch data" }, { status: 500 });
   }
-  console.log(data);
 
-  data = data.astronomy.map((day: dataTypeDay) => {
-    return {
-      day_length: convertHoursMinutesToMinutes(day.day_length),
-      sunrise: convertHoursMinutesToMinutes(day.sunrise),
-      sunset: convertHoursMinutesToMinutes(day.sunset),
-    };
-  });
-  console.log("data:", data);
-  return Response.json(data);
+  const reformattedData: dataTypeDay = data.astronomy.map(
+    (day: ApiDayResponse) => {
+      return {
+        day_length: convertHoursMinutesToMinutes(day.day_length),
+        sunriseMinutes: convertHoursMinutesToMinutes(day.sunrise),
+        sunsetMinutes: convertHoursMinutesToMinutes(day.sunset),
+        sunriseTime: day.sunrise,
+        sunsetTime: day.sunset,
+      };
+    },
+  );
+  return Response.json(reformattedData);
 }

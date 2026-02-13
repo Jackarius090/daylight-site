@@ -1,4 +1,5 @@
 import { DataTypeMonth } from "../components/ShowData";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,9 +26,20 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
     responsive: true,
     scales: {
       y: {
+        min: 0,
+        max: 1440, // 24h in minutes
+        ticks: {
+          stepSize: 60, // 1 hour spacing
+          callback: function (value) {
+            const minutes = Number(value);
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
+          },
+        },
         title: {
           display: true,
-          text: "minutes of daylight",
+          text: "daylight time",
           align: "center",
         },
         display: true,
@@ -51,12 +63,6 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
       },
     },
   };
-  console.log(days);
-
-  const reformattedDays = days.map((day) => {
-    const noon = 720;
-    return [day.sunrise - noon, day.sunset - noon];
-  });
 
   const labels = [...Array(days.length).keys()].map((i) => i + 1);
 
@@ -64,7 +70,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
     labels,
     datasets: [
       {
-        data: days.map((day) => [day.sunrise, day.sunset]),
+        data: days.map((day) => [day.sunriseMinutes, day.sunsetMinutes]),
         backgroundColor: "rgba(39, 138, 245, 0.8)",
       },
     ],
