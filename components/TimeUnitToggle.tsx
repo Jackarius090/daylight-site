@@ -20,6 +20,10 @@ export default function TimeUnitToggle({
         <RadioGroupItem value="week" id="week" />
         <Label htmlFor="week">Week</Label>
       </div>
+      <div className="flex items-center gap-3">
+        <RadioGroupItem value="month" id="month" />
+        <Label htmlFor="month">Month</Label>
+      </div>
     </RadioGroup>
   );
 }
