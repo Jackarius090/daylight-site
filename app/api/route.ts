@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     } else if (timeUnitQuery === "week") {
       const urls = [];
       let milliSeconds = Date.now();
-      for (let i = 0; i < 52; i += 12) {
+      for (let i = 0; i < 52; i += 5) {
         const date = new Date(milliSeconds).toISOString();
         const formattedDate = date.slice(0, 10);
         urls.push(
@@ -51,7 +51,30 @@ export async function GET(request: NextRequest) {
           ),
         );
         // add 1 week to milliseconds
-        milliSeconds += 604800000;
+        const millisecondsInADay = 1000 * 60 * 60 * 24;
+        milliSeconds += millisecondsInADay * 7;
+      }
+      data = await Promise.all(urls);
+      console.log("data fetched");
+      data = {
+        astronomy: data.map((day) => {
+          return day.astronomy[0];
+        }),
+      };
+    } else if (timeUnitQuery === "month") {
+      const urls = [];
+      let milliSeconds = Date.now();
+      for (let i = 0; i < 12; i++) {
+        const date = new Date(milliSeconds).toISOString();
+        const formattedDate = date.slice(0, 10);
+        urls.push(
+          fetchData(
+            `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${formattedDate}&dateEnd=${formattedDate}&location=${cityQuery}&elevation=10`,
+          ),
+        );
+        // add 1 month to milliseconds
+        const millisecondsInADay = 1000 * 60 * 60 * 24;
+        milliSeconds += millisecondsInADay * 30;
       }
       data = await Promise.all(urls);
       console.log("data fetched");
