@@ -22,32 +22,44 @@ ChartJS.register(
 );
 
 export default function DataGraph({ days }: { days: DataTypeMonth }) {
+  // sets max and min values of y axis scale to the max and min values in dataset.
+  const dataArrived = days && days.length > 0;
+  const min = dataArrived ? Math.min(...days.map((d) => d.sunriseMinutes)) : 0;
+  const max = dataArrived
+    ? Math.max(...days.map((d) => d.sunsetMinutes))
+    : 1440;
   const options: ChartOptions<"bar"> = {
     responsive: true,
     scales: {
       y: {
-        min: 0,
-        max: 1440, // 24h in minutes
+        min: min,
+        max: max,
+        position: "left",
         ticks: {
-          stepSize: 60, // 1 hour spacing
-          callback: function (value) {
-            const minutes = Number(value);
-            const hours = Math.floor(minutes / 60);
-            const mins = minutes % 60;
-            return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
-          },
+          stepSize: 60,
+          callback: (value) => formatTime(value),
         },
         title: {
           display: true,
           text: "daylight time",
-          align: "center",
         },
-        display: true,
+      },
+      y1: {
+        min: min,
+        max: max,
+        position: "right" as const,
+        ticks: {
+          stepSize: 60,
+          callback: (value) => formatTime(value),
+        },
+        grid: {
+          drawOnChartArea: false,
+        },
       },
       x: {
         title: {
           display: true,
-          text: "time (days/weeks)",
+          text: "time (days/weeks/months)",
           align: "center",
         },
         display: true,
@@ -64,7 +76,14 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
     },
   };
 
-  const labels = [...Array(days.length).keys()].map((i) => i + 1);
+  const formatTime = (value: string | number) => {
+    const minutes = Number(value);
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
+  };
+
+  const labels = days.map((day) => day.date.substring(5));
 
   const data = {
     labels,

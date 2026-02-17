@@ -6,6 +6,7 @@ import DataGraph from "./DataGraph";
 import TimeUnitToggle from "./TimeUnitToggle";
 
 export interface dataTypeDay {
+  date: string;
   day_length: number;
   sunriseMinutes: number;
   sunsetMinutes: number;
@@ -17,7 +18,7 @@ export type DataTypeMonth = dataTypeDay[];
 
 export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
-  const [timeUnit, setTimeUnit] = useState("week");
+  const [timeUnit, setTimeUnit] = useState("month");
 
   const { data, refetch } = useQuery({
     queryKey: ["timeUnit", timeUnit],

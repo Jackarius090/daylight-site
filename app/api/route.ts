@@ -12,6 +12,7 @@ function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
 }
 
 interface ApiDayResponse {
+  date: string;
   day_length: string;
   sunrise: string;
   sunset: string;
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
     } else if (timeUnitQuery === "week") {
       const urls = [];
       let milliSeconds = Date.now();
-      for (let i = 0; i < 52; i += 5) {
+      for (let i = 0; i < 52; i += 4) {
         const date = new Date(milliSeconds).toISOString();
         const formattedDate = date.slice(0, 10);
         urls.push(
@@ -92,6 +93,7 @@ export async function GET(request: NextRequest) {
   const reformattedData: dataTypeDay = data.astronomy.map(
     (day: ApiDayResponse) => {
       return {
+        date: day.date,
         day_length: convertHoursMinutesToMinutes(day.day_length),
         sunriseMinutes: convertHoursMinutesToMinutes(day.sunrise),
         sunsetMinutes: convertHoursMinutesToMinutes(day.sunset),
