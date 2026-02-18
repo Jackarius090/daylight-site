@@ -24,10 +24,15 @@ ChartJS.register(
 export default function DataGraph({ days }: { days: DataTypeMonth }) {
   // sets max and min values of y axis scale to the max and min values in dataset.
   const dataArrived = days && days.length > 0;
-  const min = dataArrived ? Math.min(...days.map((d) => d.sunriseMinutes)) : 0;
-  const max = dataArrived
+  const minRaw = dataArrived
+    ? Math.min(...days.map((d) => d.sunriseMinutes))
+    : 0;
+  const maxRaw = dataArrived
     ? Math.max(...days.map((d) => d.sunsetMinutes))
     : 1440;
+
+  const min = Math.floor(minRaw / 60) * 60;
+  const max = Math.ceil(maxRaw / 60) * 60;
   const options: ChartOptions<"bar"> = {
     responsive: true,
     scales: {
@@ -50,7 +55,9 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
         position: "right" as const,
         ticks: {
           stepSize: 60,
-          callback: (value) => formatTime(value),
+          callback: (value) => {
+            return formatTime(value);
+          },
         },
         grid: {
           drawOnChartArea: false,
@@ -77,7 +84,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
   };
 
   const formatTime = (value: string | number) => {
-    const minutes = Number(value);
+    const minutes = Math.round(Number(value));
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
