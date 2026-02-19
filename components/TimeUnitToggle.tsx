@@ -9,6 +9,7 @@ export default function TimeUnitToggle({
 }) {
   return (
     <RadioGroup
+      className="text-primary-foreground"
       onValueChange={(newValue) => setTimeUnit(newValue)}
       defaultValue="month"
     >

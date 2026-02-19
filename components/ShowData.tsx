@@ -44,11 +44,13 @@ export default function ShowData() {
           refetch();
         }}
       >
-        <span>Choose country:</span>
+        <span className="text-primary-foreground">
+          Choose place: (eg. country/city)
+        </span>
         <Input
           onChange={(e) => setCity(e.target.value)}
           value={city}
-          className="border-black w-48 m-4"
+          className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
         />
       </form>
       <TimeUnitToggle setTimeUnit={setTimeUnit} />

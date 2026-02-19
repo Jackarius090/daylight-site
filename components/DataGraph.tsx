@@ -41,10 +41,12 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
         max: max,
         position: "left",
         ticks: {
+          color: "#F8E0B4",
           stepSize: 60,
           callback: (value) => formatTime(value),
         },
         title: {
+          color: "#F8E0B4",
           display: true,
           text: "daylight time",
         },
@@ -54,6 +56,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
         max: max,
         position: "right" as const,
         ticks: {
+          color: "#F8E0B4",
           stepSize: 60,
           callback: (value) => {
             return formatTime(value);
@@ -64,7 +67,11 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
         },
       },
       x: {
+        ticks: {
+          color: "#F8E0B4",
+        },
         title: {
+          color: "#F8E0B4",
           display: true,
           text: "time (days/weeks/months)",
           align: "center",
@@ -79,6 +86,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
       title: {
         display: true,
         text: "Daylength over time",
+        color: "#F8E0B4",
       },
     },
   };
@@ -94,10 +102,11 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
 
   const data = {
     labels,
+
     datasets: [
       {
         data: days.map((day) => [day.sunriseMinutes, day.sunsetMinutes]),
-        backgroundColor: "rgba(39, 138, 245, 0.8)",
+        backgroundColor: "#e84808",
       },
     ],
   };
