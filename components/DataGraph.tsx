@@ -106,7 +106,10 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
     datasets: [
       {
         data: days.map((day) => [day.sunriseMinutes, day.sunsetMinutes]),
-        backgroundColor: "#e84808",
+        backgroundColor: "#dc6c21",
+        backgroundHoverColor: "#dc6c21",
+        borderRadius: 5,
+        borderSkipped: false,
       },
     ],
   };
