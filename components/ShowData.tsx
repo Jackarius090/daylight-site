@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import DataGraph from "./DataGraph";
 import TimeUnitToggle from "./TimeUnitToggle";
+import ChangeInDayLength from "./ChangeInDayLength";
 
 export interface dataTypeDay {
   date: string;
@@ -34,9 +35,12 @@ export default function ShowData() {
   });
 
   const days: DataTypeMonth = Array.isArray(data) ? data : [];
+
   return (
-    <div className="m-10">
+    <div className="m-2 md:m-10">
       <DataGraph days={days} />
+
+      <ChangeInDayLength days={days} city={city} timeUnit={timeUnit} />
 
       <form
         onSubmit={(e) => {

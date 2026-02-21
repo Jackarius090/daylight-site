@@ -12,14 +12,16 @@ export function InfoHoverCard() {
         <Info className="text-neutral-700" size={30} />
       </HoverCardTrigger>
       <HoverCardContent className="flex flex-col gap-0.5 bg-muted-foreground">
-        <h1>A visualisation of daylight length over time. Using:</h1>
-        <ul className="list-disc pl-6">
-          <li>NextJS</li>
-          <li>ChartJS</li>
-          <li>ipgeolocation astronomy API</li>
-        </ul>
+        <h1>A visualisation of daylight length over time.</h1>
+        <div className="mb-2">
+          <ul className="list-disc pl-6">
+            <li>NextJS</li>
+            <li>ChartJS</li>
+            <li>ipgeolocation astronomy API</li>
+          </ul>
+        </div>
         <a href="https://github.com/Jackarius090/daylight-site">
-          <h1 className="text-">See GitHub repo here</h1>
+          <h1>See GitHub repo here</h1>
         </a>
       </HoverCardContent>
     </HoverCard>

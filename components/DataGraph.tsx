@@ -48,7 +48,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
         title: {
           color: "#F8E0B4",
           display: true,
-          text: "daylight time",
+          text: "time of sunrise and sunset",
         },
       },
       y1: {
@@ -73,7 +73,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
         title: {
           color: "#F8E0B4",
           display: true,
-          text: "time (days/weeks/months)",
+          text: "date",
           align: "center",
         },
         display: true,
@@ -110,6 +110,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
         backgroundHoverColor: "#dc6c21",
         borderRadius: 5,
         borderSkipped: false,
+        barPercentage: 0.95,
       },
     ],
   };
