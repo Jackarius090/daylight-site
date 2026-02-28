@@ -23,9 +23,14 @@ export function InfoHoverCard() {
         <ul className="list-disc pl-6 mb-2">
           <li>NextJS</li>
           <li>ChartJS</li>
-          <li>ipgeolocation astronomy API</li>
           <li>Shadcn</li>
           <li>Tailwindcss</li>
+          <li>
+            ipgeolocation astronomy API:
+            <a href="https://ipgeolocation.io/astronomy-api.html">
+              link <u>here</u>
+            </a>
+          </li>
           <li>date-fns</li>
         </ul>
       </HoverCardContent>

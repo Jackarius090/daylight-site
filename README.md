@@ -6,7 +6,7 @@ This is a project made in NextJS. It is deploy here so go check it out: <https:/
 
 - NextJS
 - ChartJS
-- ipgeolocation astronomy API
+- ipgeolocation astronomy API: <https://ipgeolocation.io/astronomy-api.html>
 - Shadcn
 - Tailwindcss
 - date-fns

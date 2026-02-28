@@ -73,13 +73,14 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
         title: {
           color: "#F8E0B4",
           display: true,
-          text: "date",
+          text: "date (MM-DD format)",
           align: "center",
         },
         display: true,
       },
     },
     plugins: {
+      
       legend: {
         display: false,
       },

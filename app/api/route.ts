@@ -1,5 +1,6 @@
 import { dataTypeDay } from "../../components/ShowData";
-
+import { add } from "date-fns/fp";
+import { differenceInDays } from "date-fns";
 import { type NextRequest } from "next/server";
 
 function convertHoursMinutesToMinutes(dayLengthInClockFormat: string) {
@@ -37,7 +38,15 @@ export async function GET(request: NextRequest) {
   console.log("fetching data...");
   try {
     if (timeUnitQuery === "day") {
-      const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=2026-01-01&dateEnd=2026-01-31&location=${cityQuery}&elevation=10`;
+      // get todays date and the date 1 month from now for the url query.
+      const todaysDateInIso = new Date().toISOString().slice(0, 10);
+      const dateInOneMonth = add({ months: 1 }, new Date());
+      const dateInOneMonthInIso = dateInOneMonth.toISOString().slice(0, 10);
+      // const differenceInDaysBetweenDates = differenceInDays(
+      //   dateInOneMonth,
+      //   new Date(),
+      // );
+      const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${todaysDateInIso}&dateEnd=${dateInOneMonthInIso}&location=${cityQuery}&elevation=10`;
       data = await fetchData(url);
       console.log("data fetched");
     } else if (timeUnitQuery === "week") {
