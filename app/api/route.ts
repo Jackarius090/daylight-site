@@ -19,14 +19,15 @@ interface ApiDayResponse {
   sunset: string;
 }
 
-function convertDateToCorrectAPIFormat(string) {
-  return string.toISOString().slice(0, 10);
+function convertDateToCorrectAPIFormat(date: Date) {
+  return date.toISOString().slice(0, 10);
 }
 
 async function fetchData(url: string) {
   const res = await fetch(url, { cache: "force-cache" });
 
   if (!res.ok) {
+    console.log(res);
     throw new Error(`Astronomy API failed: ${res.status}`);
   }
 
@@ -37,7 +38,6 @@ export async function GET(request: NextRequest) {
   const cityQuery = request.nextUrl.searchParams.get("city");
   const timeUnitQuery = request.nextUrl.searchParams.get("timeunit");
   let data = null;
-  console.log("request:", request);
 
   console.log("fetching data...");
   try {
@@ -56,21 +56,41 @@ export async function GET(request: NextRequest) {
     } else if (timeUnitQuery === "week") {
       // instead of manking many api calls to gather data for 1 day every week for a year. This will gather time series data for 90 days at a time (the api limit), and then parse out the days needed.
 
-      const dateToday = new Date();
-      const dateInNinetyDays = add({ days: 90 }, new Date());
+      const urls = [];
+      let currentDate = new Date();
+      for (let i = 0; i < 6; i++) {
+        const dateInNinetyDays = add({ days: 89 }, currentDate);
+        const currentDateISO = convertDateToCorrectAPIFormat(currentDate);
+        const dateInNinetyDaysISO =
+          convertDateToCorrectAPIFormat(dateInNinetyDays);
+        urls.push(
+          fetchData(
+            `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${currentDateISO}&dateEnd=${dateInNinetyDaysISO}&location=${cityQuery}&elevation=10`,
+          ),
+        );
+        currentDate = add({ days: 89 }, currentDate);
+      }
 
-      const url = `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${convertDateToCorrectAPIFormat(dateToday)}&dateEnd=${convertDateToCorrectAPIFormat(dateInNinetyDays)}&location=${cityQuery}&elevation=10`;
+      data = await Promise.all(urls);
+      console.log("data fetched");
+      console.log(data);
+      data = {
+        astronomy: data.map((day) => {
+          return day.astronomy[0];
+        }),
+      };
+      console.log(data);
 
       // const urls = [];
       // let milliSeconds = Date.now();
       // for (let i = 0; i < 52; i += 4) {
       //   const date = new Date(milliSeconds).toISOString();
       //   const formattedDate = date.slice(0, 10);
-      //   urls.push(
-      //     fetchData(
-      //       `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${formattedDate}&dateEnd=${formattedDate}&location=${cityQuery}&elevation=10`,
-      //     ),
-      //   );
+      // urls.push(
+      //   fetchData(
+      //     `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${formattedDate}&dateEnd=${formattedDate}&location=${cityQuery}&elevation=10`,
+      //   ),
+      // );
       //   // add 1 week to milliseconds
       //   const millisecondsInADay = 1000 * 60 * 60 * 24;
       //   milliSeconds += millisecondsInADay * 7;
