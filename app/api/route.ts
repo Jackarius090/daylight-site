@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
 
       const urls = [];
       let currentDate = new Date();
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 4; i++) {
         const dateInNinetyDays = add({ days: 89 }, currentDate);
         const currentDateISO = convertDateToCorrectAPIFormat(currentDate);
         const dateInNinetyDaysISO =
@@ -73,13 +73,16 @@ export async function GET(request: NextRequest) {
 
       data = await Promise.all(urls);
       console.log("data fetched");
-      console.log(data);
+
+      // this takes the array of arrays that is received from the api call. It takes only the astronomy data and then flattens in the arrays into a single array.
       data = {
-        astronomy: data.map((day) => {
-          return day.astronomy[0];
-        }),
+        astronomy: data
+          .map((threeMonthPeriod) => {
+            return threeMonthPeriod.astronomy;
+          })
+          .flat(1),
       };
-      console.log(data);
+      console.log("transformed data: ", data);
 
       // const urls = [];
       // let milliSeconds = Date.now();

@@ -80,7 +80,6 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
       },
     },
     plugins: {
-      
       legend: {
         display: false,
       },
@@ -99,7 +98,7 @@ export default function DataGraph({ days }: { days: DataTypeMonth }) {
     return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
   };
 
-  const labels = days.map((day) => day.date.substring(5));
+  const labels = days.map((day) => day.date);
 
   const data = {
     labels,
