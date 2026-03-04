@@ -54,23 +54,24 @@ export async function GET(request: NextRequest) {
       data = await fetchData(url);
       console.log("data fetched");
     } else if (timeUnitQuery === "week") {
-      // instead of manking many api calls to gather data for 1 day every week for a year. This will gather time series data for 90 days at a time (the api limit), and then parse out the days needed.
+      // instead of manking many api calls to gather data for 1 day every week for a year.
+      // This will gather time series data for 73 days at a time (the api limit is 90 days at one time and 365 devides nicely into 73 x 5), and then parse out the days needed.
 
       const urls = [];
       let currentDate = new Date();
-      for (let i = 0; i < 4; i++) {
-        const dateInNinetyDays = add({ days: 89 }, currentDate);
+      for (let i = 0; i < 5; i++) {
+        const datePlusInterval = add({ days: 73 }, currentDate);
         const currentDateISO = convertDateToCorrectAPIFormat(currentDate);
         const dateInNinetyDaysISO =
-          convertDateToCorrectAPIFormat(dateInNinetyDays);
+          convertDateToCorrectAPIFormat(datePlusInterval);
         urls.push(
           fetchData(
             `https://api.ipgeolocation.io/v2/astronomy/timeSeries?apiKey=${process.env.DAY_LENGTH_API_KEY}&dateStart=${currentDateISO}&dateEnd=${dateInNinetyDaysISO}&location=${cityQuery}&elevation=10`,
           ),
         );
-        currentDate = add({ days: 89 }, currentDate);
+        currentDate = add({ days: 73 }, currentDate);
       }
-
+``
       data = await Promise.all(urls);
       console.log("data fetched");
 
