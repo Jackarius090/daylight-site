@@ -82,7 +82,14 @@ export async function GET(request: NextRequest) {
           })
           .flat(1),
       };
-      console.log("transformed data: ", data);
+      console.log(data);
+
+      data.astronomy = data.astronomy.filter((day, i) => {
+        if ((i + 1) % 7 === 0) {
+          return day;
+        }
+      });
+      console.log(data);
 
       // const urls = [];
       // let milliSeconds = Date.now();
