@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import DataGraph from "./DataGraph";
 import TimeUnitToggle from "./TimeUnitToggle";
 import ChangeInDayLength from "./ChangeInDayLength";
+import { DateRange } from "./DateRange";
 
 export interface dataTypeDay {
   date: string;
@@ -20,6 +21,7 @@ export type DataTypeMonth = dataTypeDay[];
 export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
   const [timeUnit, setTimeUnit] = useState("month");
+  const [dateRange, setDateRange] = useState([365]);
 
   const { data, refetch } = useQuery({
     queryKey: ["timeUnit", timeUnit],
@@ -56,7 +58,13 @@ export default function ShowData() {
           value={city}
           className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
         />
+        <DateRange
+          days={days}
+          setDateRange={setDateRange}
+          dateRange={dateRange}
+        />
       </form>
+
       <TimeUnitToggle setTimeUnit={setTimeUnit} />
     </div>
   );
