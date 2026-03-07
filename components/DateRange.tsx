@@ -1,6 +1,7 @@
 import { Slider } from "@/components/ui/slider";
 import { DataTypeMonth } from "./ShowData";
 import { Dispatch, SetStateAction } from "react";
+import { Label } from "./ui/label";
 
 export function DateRange({
   days,
@@ -12,15 +13,16 @@ export function DateRange({
   dateRange: number[];
 }) {
   return (
-    <div>
-      <div>{dateRange}</div>
+    <div className="flex gap-3 my-4">
+      <Label>Choose date range</Label>
       <Slider
-        max={100}
+        max={365}
         step={1}
-        className="mx-auto w-full max-w-xs"
+        className="max-w-xs"
         value={dateRange}
         onValueChange={setDateRange}
       />
+      <div>From today until: {dateRange} days in the future</div>
     </div>
   );
 }

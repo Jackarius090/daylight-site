@@ -40,7 +40,7 @@ export default function ShowData() {
 
   return (
     <div className="m-2 md:m-10">
-      <DataGraph days={days} />
+      <DataGraph days={days} dateRange={dateRange} />
       <div className="mt-4">
         <ChangeInDayLength days={days} city={city} timeUnit={timeUnit} />
       </div>

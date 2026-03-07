@@ -21,7 +21,16 @@ ChartJS.register(
   Legend,
 );
 
-export default function DataGraph({ days }: { days: DataTypeMonth }) {
+export default function DataGraph({
+  days,
+  dateRange,
+}: {
+  days: DataTypeMonth;
+  dateRange: number[];
+}) {
+  // format data to correct date range.
+  days = days.slice(0, dateRange[0]);
+
   // sets max and min values of y axis scale to the max and min values in dataset.
   const dataArrived = days && days.length > 0;
   const minRaw = dataArrived
