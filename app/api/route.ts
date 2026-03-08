@@ -75,6 +75,7 @@ export async function GET(request: NextRequest) {
           return day;
         }
       });
+      console.log(data.astronomy);
     } else if (timeUnitQuery === "month") {
       data.astronomy = data.astronomy.filter((day, i) => {
         if ((i + 1) % 30 === 0) {
@@ -82,6 +83,7 @@ export async function GET(request: NextRequest) {
         }
       });
     }
+    console.log(data.astronomy);
   } catch (error) {
     console.error("Failed to fetch data:", error);
     return Response.json({ error: "Failed to fetch data" }, { status: 500 });

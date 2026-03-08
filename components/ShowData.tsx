@@ -6,6 +6,7 @@ import DataGraph from "./DataGraph";
 import TimeUnitToggle from "./TimeUnitToggle";
 import ChangeInDayLength from "./ChangeInDayLength";
 import { DateRange } from "./DateRange";
+import { Button } from "./ui/button";
 
 export interface dataTypeDay {
   date: string;
@@ -63,6 +64,7 @@ export default function ShowData() {
           setDateRange={setDateRange}
           dateRange={dateRange}
         />
+        <Button>Submit</Button>
       </form>
 
       <TimeUnitToggle setTimeUnit={setTimeUnit} />

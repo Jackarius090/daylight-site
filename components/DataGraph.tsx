@@ -29,15 +29,16 @@ export default function DataGraph({
   dateRange: number[];
 }) {
   // format data to correct date range.
-  days = days.slice(0, dateRange[0]);
+  const filteredDays = days.slice(0, dateRange[0]);
+  console.log(dateRange[0]);
 
   // sets max and min values of y axis scale to the max and min values in dataset.
   const dataArrived = days && days.length > 0;
   const minRaw = dataArrived
-    ? Math.min(...days.map((d) => d.sunriseMinutes))
+    ? Math.min(...filteredDays.map((d) => d.sunriseMinutes))
     : 0;
   const maxRaw = dataArrived
-    ? Math.max(...days.map((d) => d.sunsetMinutes))
+    ? Math.max(...filteredDays.map((d) => d.sunsetMinutes))
     : 1440;
 
   const min = Math.floor(minRaw / 60) * 60;
@@ -107,14 +108,17 @@ export default function DataGraph({
     return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
   };
 
-  const labels = days.map((day) => day.date);
+  const labels = filteredDays.map((day) => day.date);
 
   const data = {
     labels,
 
     datasets: [
       {
-        data: days.map((day) => [day.sunriseMinutes, day.sunsetMinutes]),
+        data: filteredDays.map((day) => [
+          day.sunriseMinutes,
+          day.sunsetMinutes,
+        ]),
         backgroundColor: "#dc6c21",
         backgroundHoverColor: "#dc6c21",
         borderRadius: 5,
