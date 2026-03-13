@@ -58,6 +58,7 @@ export default function ShowData() {
           value={city}
           className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
         />
+        <button type="submit" className="hidden" aria-hidden="true" />
         <DateRange
           days={days}
           setDateRange={setDateRange}
