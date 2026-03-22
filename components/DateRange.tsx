@@ -14,15 +14,17 @@ export function DateRange({
 }) {
   return (
     <div className="flex gap-3 my-4">
-      <Label>Choose date range</Label>
+      <Label className="text-primary-foreground">Choose date range</Label>
       <Slider
         max={365}
         step={1}
-        className="max-w-xs"
+        className="max-w-xs "
         value={dateRange}
         onValueChange={setDateRange}
       />
-      <div>From today until: {dateRange} days in the future</div>
+      <div className="text-primary-foreground">
+        From today until: {dateRange} days in the future
+      </div>
     </div>
   );
 }

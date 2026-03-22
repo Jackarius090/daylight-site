@@ -24,7 +24,7 @@ export default function ShowData() {
   const [dateRange, setDateRange] = useState([365]);
 
   const { data, refetch } = useQuery({
-    queryKey: ["timeUnit", timeUnit],
+    queryKey: ["daylightTime", timeUnit],
     queryFn: async () => {
       const response = await fetch(`/api?city=${city}&timeunit=${timeUnit}`, {
         cache: "force-cache",
