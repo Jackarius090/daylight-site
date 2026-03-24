@@ -38,6 +38,7 @@ export default function ShowData() {
 
   const days: DataTypeMonth = Array.isArray(data) ? data : [];
 
+  console.log("dateRange in showdata component: ", dateRange);
   return (
     <div className="m-2 md:m-10">
       <DataGraph days={days} dateRange={dateRange} />
@@ -60,6 +61,7 @@ export default function ShowData() {
         />
         <button type="submit" className="hidden" aria-hidden="true" />
         <DateRange
+          timeUnit={timeUnit}
           days={days}
           setDateRange={setDateRange}
           dateRange={dateRange}

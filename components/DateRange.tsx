@@ -1,17 +1,41 @@
 import { Slider } from "@/components/ui/slider";
 import { DataTypeMonth } from "./ShowData";
-import { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Label } from "./ui/label";
 
 export function DateRange({
   days,
   setDateRange,
   dateRange,
+  timeUnit,
 }: {
   days: DataTypeMonth;
   setDateRange: Dispatch<SetStateAction<number[]>>;
   dateRange: number[];
+  timeUnit: string;
 }) {
+  const [sliderValue, setSliderValue] = useState([365]);
+  const newDateRangeValue = dateRange;
+
+  function setValue(value: number[]) {
+    setSliderValue(value);
+    if (timeUnit === "day") {
+      setDateRange(value);
+    } else if (timeUnit === "week") {
+      const newDateRangeValue = [Math.floor(value[0] / 7)];
+      setDateRange(newDateRangeValue);
+    } else if (timeUnit === "month") {
+      const newDateRangeValue = [Math.floor(value[0] / 30)];
+      console.log("dateRange in daterange component: ", dateRange);
+      console.log(
+        "newDateRangeValue in daterange component: ",
+        newDateRangeValue,
+      );
+
+      setDateRange(newDateRangeValue);
+    }
+  }
+
   return (
     <div className="flex gap-3 my-4">
       <Label className="text-primary-foreground">Choose date range</Label>
@@ -19,11 +43,11 @@ export function DateRange({
         max={365}
         step={1}
         className="max-w-xs "
-        value={dateRange}
-        onValueChange={setDateRange}
+        value={sliderValue}
+        onValueChange={(value) => setValue(value)}
       />
       <div className="text-primary-foreground">
-        From today until: {dateRange} days in the future
+        From today until: {sliderValue} days in the future
       </div>
     </div>
   );
