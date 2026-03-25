@@ -15,7 +15,6 @@ export function DateRange({
   timeUnit: string;
 }) {
   const [sliderValue, setSliderValue] = useState([365]);
-  const newDateRangeValue = dateRange;
 
   function setValue(value: number[]) {
     setSliderValue(value);
@@ -26,12 +25,6 @@ export function DateRange({
       setDateRange(newDateRangeValue);
     } else if (timeUnit === "month") {
       const newDateRangeValue = [Math.floor(value[0] / 30)];
-      console.log("dateRange in daterange component: ", dateRange);
-      console.log(
-        "newDateRangeValue in daterange component: ",
-        newDateRangeValue,
-      );
-
       setDateRange(newDateRangeValue);
     }
   }

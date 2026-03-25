@@ -22,6 +22,7 @@ export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
   const [timeUnit, setTimeUnit] = useState("month");
   const [dateRange, setDateRange] = useState([365]);
+  const [recentlySearchedPlaces, setRecentlySearchedPlaces] = useState([""]);
 
   const { data, refetch } = useQuery({
     queryKey: ["daylightTime", timeUnit],
@@ -38,7 +39,10 @@ export default function ShowData() {
 
   const days: DataTypeMonth = Array.isArray(data) ? data : [];
 
-  console.log("dateRange in showdata component: ", dateRange);
+  function cityInputChange(value: string) {
+    setCity(value);
+  }
+
   return (
     <div className="m-2 md:m-10">
       <DataGraph days={days} dateRange={dateRange} />
@@ -49,17 +53,27 @@ export default function ShowData() {
         onSubmit={(e) => {
           e.preventDefault();
           refetch();
+          setRecentlySearchedPlaces([...recentlySearchedPlaces, city]);
         }}
       >
         <span className="text-primary-foreground">
           Choose place: (eg. country/city)
         </span>
         <Input
-          onChange={(e) => setCity(e.target.value)}
+          onChange={(e) => cityInputChange(e.target.value)}
           value={city}
           className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
         />
         <button type="submit" className="hidden" aria-hidden="true" />
+        <div className="text-primary-foreground flex">
+          Recent places:{" "}
+          <div>
+            {" "}
+            {recentlySearchedPlaces.map((place, i) => (
+              <div key={i}>{place}</div>
+            ))}
+          </div>
+        </div>
         <DateRange
           timeUnit={timeUnit}
           days={days}
