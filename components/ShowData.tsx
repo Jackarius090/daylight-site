@@ -6,6 +6,7 @@ import DataGraph from "./DataGraph";
 import TimeUnitToggle from "./TimeUnitToggle";
 import ChangeInDayLength from "./ChangeInDayLength";
 import { DateRange } from "./DateRange";
+import { Button } from "./ui/button";
 
 export interface dataTypeDay {
   date: string;
@@ -65,13 +66,19 @@ export default function ShowData() {
           className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
         />
         <button type="submit" className="hidden" aria-hidden="true" />
-        <div className="text-primary-foreground flex">
-          Recent places:{" "}
-          <div>
+        <div className="flex">
+          <div className="text-primary-foreground mr-4"> Recent places: </div>
+          <div className="flex gap-4">
             {" "}
-            {recentlySearchedPlaces.map((place, i) => (
-              <div key={i}>{place}</div>
-            ))}
+            {recentlySearchedPlaces.map((place, i) => {
+              if (place) {
+                return (
+                  <Button variant="outline" key={i}>
+                    {place}
+                  </Button>
+                );
+              }
+            })}
           </div>
         </div>
         <DateRange
