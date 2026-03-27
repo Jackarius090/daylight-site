@@ -73,7 +73,14 @@ export default function ShowData() {
             {recentlySearchedPlaces.map((place, i) => {
               if (place) {
                 return (
-                  <Button variant="outline" key={i}>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setCity(place);
+                      refetch();
+                    }}
+                    key={i}
+                  >
                     {place}
                   </Button>
                 );
