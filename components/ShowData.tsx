@@ -44,58 +44,64 @@ export default function ShowData() {
     setCity(value);
   }
 
+  function handleRecentlySearchedPlaces() {
+    setRecentlySearchedPlaces((prev) => {
+      const updated = [city, ...prev.filter((p) => p !== city)];
+      return updated.slice(0, 3);
+    });
+  }
+
   return (
     <div className="m-2 md:m-10">
       <DataGraph days={days} dateRange={dateRange} />
-      <div className="mt-4">
+      <div className="columns-2 gap-4 mt-4 p-4 border rounded-md">
         <ChangeInDayLength days={days} city={city} timeUnit={timeUnit} />
-      </div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          refetch();
-          setRecentlySearchedPlaces([...recentlySearchedPlaces, city]);
-        }}
-      >
-        <span className="text-primary-foreground">
-          Choose place: (eg. country/city)
-        </span>
-        <Input
-          onChange={(e) => cityInputChange(e.target.value)}
-          value={city}
-          className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
-        />
-        <button type="submit" className="hidden" aria-hidden="true" />
-        <div className="flex">
-          <div className="text-primary-foreground mr-4"> Recent places: </div>
-          <div className="flex gap-4">
-            {" "}
-            {recentlySearchedPlaces.map((place, i) => {
-              if (place) {
-                return (
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setCity(place);
-                      refetch();
-                    }}
-                    key={i}
-                  >
-                    {place}
-                  </Button>
-                );
-              }
-            })}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            refetch();
+            handleRecentlySearchedPlaces();
+          }}
+        >
+          <span className="text-primary-foreground">
+            Choose place: (eg. country/city)
+          </span>
+          <Input
+            onChange={(e) => cityInputChange(e.target.value)}
+            value={city}
+            className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
+          />
+          <button type="submit" className="hidden" aria-hidden="true" />
+          <div className="flex">
+            <div className="flex gap-4 items-center">
+              <div className="text-primary-foreground">Recent places:</div>
+              {recentlySearchedPlaces.map((place, i) => {
+                if (place) {
+                  return (
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setCity(place);
+                        refetch();
+                      }}
+                      key={i}
+                    >
+                      {place}
+                    </Button>
+                  );
+                }
+              })}
+            </div>
           </div>
-        </div>
-        <DateRange
-          timeUnit={timeUnit}
-          days={days}
-          setDateRange={setDateRange}
-          dateRange={dateRange}
-        />
-      </form>
-      <TimeUnitToggle setTimeUnit={setTimeUnit} />
+          <DateRange
+            timeUnit={timeUnit}
+            days={days}
+            setDateRange={setDateRange}
+            dateRange={dateRange}
+          />
+        </form>
+        <TimeUnitToggle setTimeUnit={setTimeUnit} />
+      </div>
     </div>
   );
 }
