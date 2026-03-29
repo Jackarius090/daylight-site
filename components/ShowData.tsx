@@ -51,6 +51,18 @@ export default function ShowData() {
     });
   }
 
+  function setDateRangeValue(value: number[]) {
+    if (timeUnit === "day") {
+      setDateRange(value);
+    } else if (timeUnit === "week") {
+      const newDateRangeValue = [Math.floor(value[0] / 7)];
+      setDateRange(newDateRangeValue);
+    } else if (timeUnit === "month") {
+      const newDateRangeValue = [Math.floor(value[0] / 30)];
+      setDateRange(newDateRangeValue);
+    }
+  }
+
   return (
     <div className="m-2 md:m-10">
       <DataGraph days={days} dateRange={dateRange} />
@@ -93,12 +105,7 @@ export default function ShowData() {
               })}
             </div>
           </div>
-          <DateRange
-            timeUnit={timeUnit}
-            days={days}
-            setDateRange={setDateRange}
-            dateRange={dateRange}
-          />
+          <DateRange setDateRangeValue={setDateRangeValue} />
         </form>
         <TimeUnitToggle setTimeUnit={setTimeUnit} />
       </div>
