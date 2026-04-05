@@ -21,7 +21,7 @@ export type DataTypeMonth = dataTypeDay[];
 
 export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
-  const [timeUnit, setTimeUnit] = useState("month");
+  const [timeUnit, setTimeUnit] = useState("day");
   const [dateRange, setDateRange] = useState([365]);
   const [recentlySearchedPlaces, setRecentlySearchedPlaces] = useState([""]);
 
@@ -40,10 +40,6 @@ export default function ShowData() {
 
   const days: DataTypeMonth = Array.isArray(data) ? data : [];
 
-  function cityInputChange(value: string) {
-    setCity(value);
-  }
-
   function handleRecentlySearchedPlaces() {
     setRecentlySearchedPlaces((prev) => {
       const updated = [city, ...prev.filter((p) => p !== city)];
@@ -51,21 +47,20 @@ export default function ShowData() {
     });
   }
 
-  function setDateRangeValue(value: number[]) {
-    if (timeUnit === "day") {
-      setDateRange(value);
-    } else if (timeUnit === "week") {
-      const newDateRangeValue = [Math.floor(value[0] / 7)];
-      setDateRange(newDateRangeValue);
-    } else if (timeUnit === "month") {
-      const newDateRangeValue = [Math.floor(value[0] / 30)];
-      setDateRange(newDateRangeValue);
-    }
+  function getComputedDateRange() {
+    if (timeUnit === "day") return dateRange;
+    if (timeUnit === "week") return [Math.floor(dateRange[0] / 7)];
+    if (timeUnit === "month") return [Math.floor(dateRange[0] / 30)];
+    return dateRange;
   }
+
+  const computedDateRange = getComputedDateRange();
+
+  console.log(dateRange);
 
   return (
     <div className="m-2 md:m-10">
-      <DataGraph days={days} dateRange={dateRange} />
+      <DataGraph days={days} computedDateRange={computedDateRange} />
       <div className="columns-2 gap-4 mt-4 p-4 border rounded-md">
         <ChangeInDayLength days={days} city={city} timeUnit={timeUnit} />
         <form
@@ -79,7 +74,7 @@ export default function ShowData() {
             Choose place: (eg. country/city)
           </span>
           <Input
-            onChange={(e) => cityInputChange(e.target.value)}
+            onChange={(e) => setCity(e.target.value)}
             value={city}
             className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
           />
@@ -105,7 +100,7 @@ export default function ShowData() {
               })}
             </div>
           </div>
-          <DateRange setDateRangeValue={setDateRangeValue} />
+          <DateRange setDateRange={setDateRange} />
         </form>
         <TimeUnitToggle setTimeUnit={setTimeUnit} />
       </div>

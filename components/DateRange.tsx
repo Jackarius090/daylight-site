@@ -1,12 +1,11 @@
 import { Slider } from "@/components/ui/slider";
-import { DataTypeMonth } from "./ShowData";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Label } from "./ui/label";
 
 export function DateRange({
-  setDateRangeValue,
+  setDateRange,
 }: {
-  setDateRangeValue: (value: number[]) => void;
+  setDateRange: (value: number[]) => void;
 }) {
   const [sliderValue, setSliderValue] = useState([365]);
 
@@ -20,7 +19,7 @@ export function DateRange({
         value={sliderValue}
         onValueChange={(value) => {
           setSliderValue(value);
-          setDateRangeValue(value);
+          setDateRange(value);
         }}
       />
       <div className="text-primary-foreground">

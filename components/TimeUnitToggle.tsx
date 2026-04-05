@@ -11,7 +11,7 @@ export default function TimeUnitToggle({
     <RadioGroup
       className="text-primary-foreground"
       onValueChange={(newValue) => setTimeUnit(newValue)}
-      defaultValue="month"
+      defaultValue="day"
     >
       <div className="flex items-center gap-3">
         <RadioGroupItem value="day" id="day" />

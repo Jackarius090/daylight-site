@@ -23,13 +23,13 @@ ChartJS.register(
 
 export default function DataGraph({
   days,
-  dateRange,
+  computedDateRange,
 }: {
   days: DataTypeMonth;
-  dateRange: number[];
+  computedDateRange: number[];
 }) {
   // format data to correct date range.
-  const filteredDays = days.slice(0, dateRange[0]);
+  const filteredDays = days.slice(0, computedDateRange[0]);
 
   // sets max and min values of y axis scale to the max and min values in dataset.
   const dataArrived = days && days.length > 0;
