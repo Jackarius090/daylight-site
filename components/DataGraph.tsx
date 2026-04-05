@@ -82,13 +82,27 @@ export default function DataGraph({
         title: {
           color: "#F8E0B4",
           display: true,
-          text: "date (MM-DD format)",
+          text: "date (YYYY-MM-DD format)",
           align: "center",
         },
         display: true,
       },
     },
     plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            // formats label from number of minutes to clocktime for the hover tooltip on databars
+            let label = context.dataset.label || "";
+            const labelArray = JSON.parse(context.formattedValue);
+            const sunriseText = formatTime(labelArray[0]);
+            const sunsetText = formatTime(labelArray[1]);
+            return `${sunriseText} to ${sunsetText}`;
+          },
+        },
+        enabled: true,
+        displayColors: false,
+      },
       legend: {
         display: false,
       },
