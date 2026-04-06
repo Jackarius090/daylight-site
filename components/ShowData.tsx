@@ -7,6 +7,7 @@ import TimeUnitToggle from "./TimeUnitToggle";
 import ChangeInDayLength from "./ChangeInDayLength";
 import { DateRange } from "./DateRange";
 import { Button } from "./ui/button";
+import { Label } from "./ui/label";
 
 export interface dataTypeDay {
   date: string;
@@ -48,15 +49,13 @@ export default function ShowData() {
   }
 
   function getComputedDateRange() {
+    // the date range value comes as days. So this function changes that value to take show the correct amount of months or weeks.
     if (timeUnit === "day") return dateRange;
     if (timeUnit === "week") return [Math.floor(dateRange[0] / 7)];
     if (timeUnit === "month") return [Math.floor(dateRange[0] / 30)];
     return dateRange;
   }
-
   const computedDateRange = getComputedDateRange();
-
-  console.log(dateRange);
 
   return (
     <div className="m-2 md:m-10">
@@ -70,34 +69,42 @@ export default function ShowData() {
             handleRecentlySearchedPlaces();
           }}
         >
-          <span className="text-primary-foreground">
-            Choose place: (eg. country/city)
-          </span>
-          <Input
-            onChange={(e) => setCity(e.target.value)}
-            value={city}
-            className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
-          />
+          <div className="flex">
+            <Label htmlFor="chooseCity" className="text-primary-foreground">
+              Choose place: (eg. country/city)
+            </Label>
+            <Input
+              id="chooseCity"
+              onChange={(e) => setCity(e.target.value)}
+              value={city}
+              className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
+            />
+          </div>
           <button type="submit" className="hidden" aria-hidden="true" />
           <div className="flex">
             <div className="flex gap-4 items-center">
-              <div className="text-primary-foreground">Recent places:</div>
-              {recentlySearchedPlaces.map((place, i) => {
-                if (place) {
-                  return (
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setCity(place);
-                        refetch();
-                      }}
-                      key={i}
-                    >
-                      {place}
-                    </Button>
-                  );
-                }
-              })}
+              <Label htmlFor="recentPlaces" className="text-primary-foreground">
+                Recent places:
+              </Label>
+              <div id="recentPlaces">
+                {recentlySearchedPlaces.map((place, i) => {
+                  if (place) {
+                    return (
+                      <Button
+                        className="h-7"
+                        variant="outline"
+                        onClick={() => {
+                          setCity(place);
+                          refetch();
+                        }}
+                        key={i}
+                      >
+                        {place}
+                      </Button>
+                    );
+                  }
+                })}
+              </div>
             </div>
           </div>
           <DateRange setDateRange={setDateRange} />

@@ -9,19 +9,21 @@ export default function TimeUnitToggle({
 }) {
   return (
     <RadioGroup
-      className="text-primary-foreground"
+      className="text-primary-foreground flex gap-8"
       onValueChange={(newValue) => setTimeUnit(newValue)}
       defaultValue="day"
+      id="timeunit"
     >
-      <div className="flex items-center gap-3">
+      <Label htmlFor="timeunit">Timeunit: </Label>
+      <div className="flex items-center gap-2">
         <RadioGroupItem value="day" id="day" />
         <Label htmlFor="day">Day</Label>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <RadioGroupItem value="week" id="week" />
         <Label htmlFor="week">Week</Label>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <RadioGroupItem value="month" id="month" />
         <Label htmlFor="month">Month</Label>
       </div>

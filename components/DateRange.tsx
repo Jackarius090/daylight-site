@@ -22,7 +22,7 @@ export function DateRange({
           setDateRange(value);
         }}
       />
-      <div className="text-primary-foreground">
+      <div className="text-primary-foreground text-sm font-medium">
         From today until: {sliderValue} days in the future
       </div>
     </div>
