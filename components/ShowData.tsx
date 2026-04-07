@@ -24,7 +24,9 @@ export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
   const [timeUnit, setTimeUnit] = useState("day");
   const [dateRange, setDateRange] = useState([365]);
-  const [recentlySearchedPlaces, setRecentlySearchedPlaces] = useState([""]);
+  const [recentlySearchedPlaces, setRecentlySearchedPlaces] = useState([
+    "copenhagen",
+  ]);
 
   const { data, refetch } = useQuery({
     queryKey: ["daylightTime", timeUnit],
@@ -60,7 +62,7 @@ export default function ShowData() {
   return (
     <div className="m-2 md:m-10">
       <DataGraph days={days} computedDateRange={computedDateRange} />
-      <div className="columns-2 gap-4 mt-4 p-4 border rounded-md">
+      <div className="md:columns-2 gap-4 mt-4 p-4 border rounded-md">
         <ChangeInDayLength days={days} city={city} timeUnit={timeUnit} />
         <form
           onSubmit={(e) => {
@@ -86,7 +88,7 @@ export default function ShowData() {
               <Label htmlFor="recentPlaces" className="text-primary-foreground">
                 Recent places:
               </Label>
-              <div id="recentPlaces">
+              <div id="recentPlaces" className="flex gap-4">
                 {recentlySearchedPlaces.map((place, i) => {
                   if (place) {
                     return (

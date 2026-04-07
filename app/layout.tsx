@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geist.className}>
-      <body>{children}</body>
+      <body className="max-w-screen">{children}</body>
     </html>
   );
 }

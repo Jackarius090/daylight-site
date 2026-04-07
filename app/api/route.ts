@@ -58,6 +58,7 @@ export async function GET(request: NextRequest) {
       currentDate = add({ days: 73 }, currentDate);
     }
     data = await Promise.all(urls);
+    console.log(data[0].astronomy);
     console.log("data fetched");
 
     // this takes the array of arrays that is received from the api call. It takes only the astronomy data and then flattens in the arrays into a single array.
