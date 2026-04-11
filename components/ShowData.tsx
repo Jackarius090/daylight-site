@@ -8,6 +8,7 @@ import ChangeInDayLength from "./ChangeInDayLength";
 import { DateRange } from "./DateRange";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import MoonDataSwitch from "./MoonDataSwitch";
 
 export interface dataTypeDay {
   date: string;
@@ -62,57 +63,57 @@ export default function ShowData() {
   return (
     <div className="m-2 md:m-10">
       <DataGraph days={days} computedDateRange={computedDateRange} />
-      <div className="md:columns-2 gap-4 mt-4 p-4 border rounded-md">
+      <form
+        onSubmit={(e) => {``
+          e.preventDefault();
+          refetch();
+          handleRecentlySearchedPlaces();
+        }}
+        className="lg:grid lg:grid-cols-2 gap-2 mt-4 p-4 border rounded-md"
+      >
         <ChangeInDayLength days={days} city={city} timeUnit={timeUnit} />
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            refetch();
-            handleRecentlySearchedPlaces();
-          }}
-        >
-          <div className="flex">
-            <Label htmlFor="chooseCity" className="text-primary-foreground">
-              Choose place: (eg. country/city)
+        <div className="flex">
+          <Label htmlFor="chooseCity" className="text-primary-foreground">
+            Choose place: (eg. country/city)
+          </Label>
+          <Input
+            id="chooseCity"
+            onChange={(e) => setCity(e.target.value)}
+            value={city}
+            className="border-primary-foreground text-primary-foreground rounded-md w-48"
+          />
+        </div>
+        <button type="submit" className="hidden" aria-hidden="true" />
+        <div className="flex">
+          <div className="flex gap-4 items-center">
+            <Label htmlFor="recentPlaces" className="text-primary-foreground">
+              Recent places:
             </Label>
-            <Input
-              id="chooseCity"
-              onChange={(e) => setCity(e.target.value)}
-              value={city}
-              className="border-primary-foreground text-primary-foreground rounded-md w-48 m-4"
-            />
-          </div>
-          <button type="submit" className="hidden" aria-hidden="true" />
-          <div className="flex">
-            <div className="flex gap-4 items-center">
-              <Label htmlFor="recentPlaces" className="text-primary-foreground">
-                Recent places:
-              </Label>
-              <div id="recentPlaces" className="flex gap-4">
-                {recentlySearchedPlaces.map((place, i) => {
-                  if (place) {
-                    return (
-                      <Button
-                        className="h-7"
-                        variant="outline"
-                        onClick={() => {
-                          setCity(place);
-                          refetch();
-                        }}
-                        key={i}
-                      >
-                        {place}
-                      </Button>
-                    );
-                  }
-                })}
-              </div>
+            <div id="recentPlaces" className="flex gap-4">
+              {recentlySearchedPlaces.map((place, i) => {
+                if (place) {
+                  return (
+                    <Button
+                      className="h-7"
+                      variant="outline"
+                      onClick={() => {
+                        setCity(place);
+                        refetch();
+                      }}
+                      key={i}
+                    >
+                      {place}
+                    </Button>
+                  );
+                }
+              })}
             </div>
           </div>
-          <DateRange setDateRange={setDateRange} />
-        </form>
+        </div>
+        <DateRange setDateRange={setDateRange} />
         <TimeUnitToggle setTimeUnit={setTimeUnit} />
-      </div>
+        <MoonDataSwitch />
+      </form>
     </div>
   );
 }
