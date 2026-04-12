@@ -64,15 +64,16 @@ export default function ShowData() {
     <div className="m-2 md:m-10">
       <DataGraph days={days} computedDateRange={computedDateRange} />
       <form
-        onSubmit={(e) => {``
+        onSubmit={(e) => {
+          ``;
           e.preventDefault();
           refetch();
           handleRecentlySearchedPlaces();
         }}
-        className="lg:grid lg:grid-cols-2 gap-2 mt-4 p-4 border rounded-md"
+        className="lg:columns-2 space-y-4 mt-4 p-4 border rounded-md"
       >
         <ChangeInDayLength days={days} city={city} timeUnit={timeUnit} />
-        <div className="flex">
+        <div className="flex gap-4">
           <Label htmlFor="chooseCity" className="text-primary-foreground">
             Choose place: (eg. country/city)
           </Label>
@@ -80,7 +81,7 @@ export default function ShowData() {
             id="chooseCity"
             onChange={(e) => setCity(e.target.value)}
             value={city}
-            className="border-primary-foreground text-primary-foreground rounded-md w-48"
+            className="border-primary-foreground text-primary-foreground rounded-md w-48 h-9"
           />
         </div>
         <button type="submit" className="hidden" aria-hidden="true" />

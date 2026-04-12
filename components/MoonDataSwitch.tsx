@@ -5,7 +5,9 @@ export default function MoonDataSwitch() {
   return (
     <div className="flex items-center gap-4">
       <Switch id="moon-data-switch" />
-      <Label htmlFor="moon-data-switch">Show moon data</Label>
+      <Label htmlFor="moon-data-switch" className="text-primary-foreground">
+        Show moon data
+      </Label>
     </div>
   );
 }

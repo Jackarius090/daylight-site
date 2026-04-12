@@ -10,7 +10,7 @@ export function DateRange({
   const [sliderValue, setSliderValue] = useState([365]);
 
   return (
-    <div className="flex gap-3 my-4">
+    <div className="flex gap-3">
       <Label className="text-primary-foreground">Choose date range</Label>
       <Slider
         max={365}
