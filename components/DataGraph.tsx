@@ -1,4 +1,4 @@
-import { DataTypeMonth } from "../components/ShowData";
+import { DataTypeDayArray } from "../components/ShowData";
 
 import {
   Chart as ChartJS,
@@ -25,7 +25,7 @@ export default function DataGraph({
   days,
   computedDateRange,
 }: {
-  days: DataTypeMonth;
+  days: DataTypeDayArray;
   computedDateRange: number[];
 }) {
   // format data to correct date range.

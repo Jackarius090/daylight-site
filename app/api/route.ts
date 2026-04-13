@@ -16,6 +16,8 @@ interface ApiDayResponse {
   day_length: string;
   sunrise: string;
   sunset: string;
+  moonrise: string;
+  moonset: string;
 }
 
 function convertDateToCorrectAPIFormat(date: Date) {
@@ -97,6 +99,8 @@ export async function GET(request: NextRequest) {
         sunsetMinutes: convertHoursMinutesToMinutes(day.sunset),
         sunriseTime: day.sunrise,
         sunsetTime: day.sunset,
+        moonRiseTime: day.moonrise,
+        moonSetTime: day.moonset,
       };
     },
   );

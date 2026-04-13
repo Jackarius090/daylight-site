@@ -17,9 +17,11 @@ export interface dataTypeDay {
   sunsetMinutes: number;
   sunriseTime: string;
   sunsetTime: string;
+  moonRiseTime: string;
+  moonSetTime: string;
 }
 
-export type DataTypeMonth = dataTypeDay[];
+export type DataTypeDayArray = dataTypeDay[];
 
 export default function ShowData() {
   const [city, setCity] = useState("copenhagen");
@@ -42,7 +44,7 @@ export default function ShowData() {
     },
   });
 
-  const days: DataTypeMonth = Array.isArray(data) ? data : [];
+  const days: DataTypeDayArray = Array.isArray(data) ? data : [];
 
   function handleRecentlySearchedPlaces() {
     setRecentlySearchedPlaces((prev) => {
@@ -52,7 +54,7 @@ export default function ShowData() {
   }
 
   function getComputedDateRange() {
-    // the date range value comes as days. So this function changes that value to take show the correct amount of months or weeks.
+    // the date range value comes as days. So this function changes that value to show the correct amount of months or weeks.
     if (timeUnit === "day") return dateRange;
     if (timeUnit === "week") return [Math.floor(dateRange[0] / 7)];
     if (timeUnit === "month") return [Math.floor(dateRange[0] / 30)];
@@ -70,7 +72,7 @@ export default function ShowData() {
           refetch();
           handleRecentlySearchedPlaces();
         }}
-        className="lg:columns-2 space-y-4 mt-4 p-4 border rounded-md"
+        className="lg:columns-2 space-y-5 mt-4 p-4 border rounded-md"
       >
         <ChangeInDayLength days={days} city={city} timeUnit={timeUnit} />
         <div className="flex gap-4">

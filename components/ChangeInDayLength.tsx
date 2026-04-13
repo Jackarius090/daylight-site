@@ -1,11 +1,11 @@
-import { DataTypeMonth } from "./ShowData";
+import { DataTypeDayArray } from "./ShowData";
 
 export default function ChangeInDayLength({
   days,
   city,
   timeUnit,
 }: {
-  days: DataTypeMonth;
+  days: DataTypeDayArray;
   city: string;
   timeUnit: string;
 }) {
