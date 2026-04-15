@@ -99,8 +99,8 @@ export async function GET(request: NextRequest) {
         sunsetMinutes: convertHoursMinutesToMinutes(day.sunset),
         sunriseTime: day.sunrise,
         sunsetTime: day.sunset,
-        moonRiseTime: day.moonrise,
-        moonSetTime: day.moonset,
+        moonRiseTime: convertHoursMinutesToMinutes(day.moonrise),
+        moonSetTime: convertHoursMinutesToMinutes(day.moonset),
       };
     },
   );

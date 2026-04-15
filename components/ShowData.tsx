@@ -17,8 +17,8 @@ export interface dataTypeDay {
   sunsetMinutes: number;
   sunriseTime: string;
   sunsetTime: string;
-  moonRiseTime: string;
-  moonSetTime: string;
+  moonRiseTime: number;
+  moonSetTime: number;
 }
 
 export type DataTypeDayArray = dataTypeDay[];

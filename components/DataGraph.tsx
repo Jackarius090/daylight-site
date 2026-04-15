@@ -9,8 +9,11 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
+  PointElement,
+  LineElement,
+  ChartData,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, Chart } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -19,6 +22,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  PointElement,
+  LineElement,
 );
 
 export default function DataGraph({
@@ -42,7 +47,7 @@ export default function DataGraph({
 
   const min = Math.floor(minRaw / 60) * 60;
   const max = Math.ceil(maxRaw / 60) * 60;
-  const options: ChartOptions<"bar"> = {
+  const options: ChartOptions<"bar" | "line"> = {
     responsive: true,
     scales: {
       y: {
@@ -114,6 +119,8 @@ export default function DataGraph({
     },
   };
 
+  console.log(days[0]);
+
   const formatTime = (value: string | number) => {
     const minutes = Math.round(Number(value));
     const hours = Math.floor(minutes / 60);
@@ -123,23 +130,39 @@ export default function DataGraph({
 
   const labels = filteredDays.map((day) => day.date);
 
-  const data = {
+  const data: ChartData<"bar" | "line", any, string> = {
     labels,
 
     datasets: [
       {
-        data: filteredDays.map((day) => [
-          day.sunriseMinutes,
-          day.sunsetMinutes,
-        ]),
+        label: "daylength data",
+        data: filteredDays.map((day) => ({
+          x: day.date,
+          y: [day.sunriseMinutes, day.sunsetMinutes],
+        })),
         backgroundColor: "#dc6c21",
-        backgroundHoverColor: "#dc6c21",
         borderRadius: 5,
         borderSkipped: false,
         barPercentage: 0.95,
+        order: 1,
+      },
+      {
+        label: "moon data",
+
+        data: filteredDays.map((day) => ({
+          x: day.date,
+          y: day.moonRiseTime,
+        })),
+        borderColor: "#000000",
+        backgroundColor: "#000000",
+        pointBackgroundColor: "#000000",
+        type: "line",
+        order: 0,
       },
     ],
   };
 
-  return <Bar width={50} height={20} data={data} options={options} />;
+  return (
+    <Chart type="bar" width={50} height={20} data={data} options={options} />
+  );
 }
