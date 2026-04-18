@@ -30,6 +30,7 @@ export default function ShowData() {
   const [recentlySearchedPlaces, setRecentlySearchedPlaces] = useState([
     "copenhagen",
   ]);
+  const [showMoonData, setShowMoonData] = useState(false);
 
   const { data, refetch } = useQuery({
     queryKey: ["daylightTime", timeUnit],
@@ -64,7 +65,11 @@ export default function ShowData() {
 
   return (
     <div className="m-2 md:m-10">
-      <DataGraph days={days} computedDateRange={computedDateRange} />
+      <DataGraph
+        showMoonData={showMoonData}
+        days={days}
+        computedDateRange={computedDateRange}
+      />
       <form
         onSubmit={(e) => {
           ``;
@@ -115,7 +120,7 @@ export default function ShowData() {
         </div>
         <DateRange setDateRange={setDateRange} />
         <TimeUnitToggle setTimeUnit={setTimeUnit} />
-        <MoonDataSwitch />
+        <MoonDataSwitch setShowMoonData={setShowMoonData} />
       </form>
     </div>
   );

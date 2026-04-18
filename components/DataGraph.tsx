@@ -13,7 +13,7 @@ import {
   LineElement,
   ChartData,
 } from "chart.js";
-import { Bar, Chart } from "react-chartjs-2";
+import { Chart } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -29,9 +29,11 @@ ChartJS.register(
 export default function DataGraph({
   days,
   computedDateRange,
+  showMoonData,
 }: {
   days: DataTypeDayArray;
   computedDateRange: number[];
+  showMoonData: boolean;
 }) {
   // format data to correct date range.
   const filteredDays = days.slice(0, computedDateRange[0]);
@@ -119,8 +121,6 @@ export default function DataGraph({
     },
   };
 
-  console.log(days[0]);
-
   const formatTime = (value: string | number) => {
     const minutes = Math.round(Number(value));
     const hours = Math.floor(minutes / 60);
@@ -148,7 +148,7 @@ export default function DataGraph({
       },
       {
         label: "moon data",
-
+        hidden: showMoonData,
         data: filteredDays.map((day) => ({
           x: day.date,
           y: day.moonRiseTime,
