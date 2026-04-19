@@ -100,11 +100,14 @@ export default function DataGraph({
         callbacks: {
           label: function (context) {
             // formats label from number of minutes to clocktime for the hover tooltip on databars
-            let label = context.dataset.label || "";
+            if (context.dataset.label === "moon data") {
+              const label = formatTime(context.formattedValue);
+              return `Moonrise time: ${label}`;
+            }
             const labelArray = JSON.parse(context.formattedValue);
             const sunriseText = formatTime(labelArray[0]);
             const sunsetText = formatTime(labelArray[1]);
-            return `${sunriseText} to ${sunsetText}`;
+            return `Sunrise and Sunset: ${sunriseText} to ${sunsetText}`;
           },
         },
         enabled: true,
@@ -148,7 +151,7 @@ export default function DataGraph({
       },
       {
         label: "moon data",
-        hidden: showMoonData,
+        hidden: !showMoonData,
         data: filteredDays.map((day) => ({
           x: day.date,
           y: day.moonRiseTime,

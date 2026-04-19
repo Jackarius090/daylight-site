@@ -12,7 +12,6 @@ export default function MoonDataSwitch({
       <Switch
         onCheckedChange={(value) => {
           setShowMoonData(value);
-          console.log(value);
         }}
         id="moon-data-switch"
       />
