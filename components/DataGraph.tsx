@@ -47,8 +47,15 @@ export default function DataGraph({
     ? Math.max(...filteredDays.map((d) => d.sunsetMinutes))
     : 1440;
 
-  const min = Math.floor(minRaw / 60) * 60;
-  const max = Math.ceil(maxRaw / 60) * 60;
+  const min = (() => {
+    if (showMoonData) return 0;
+    return Math.floor(minRaw / 60) * 60;
+  })();
+  const max = (() => {
+    if (showMoonData) return 1440;
+    return Math.ceil(maxRaw / 60) * 60;
+  })();
+
   const options: ChartOptions<"bar" | "line"> = {
     responsive: true,
     scales: {
