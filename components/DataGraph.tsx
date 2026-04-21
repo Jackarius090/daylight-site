@@ -132,10 +132,13 @@ export default function DataGraph({
   };
 
   const formatTime = (value: string | number) => {
-    const minutes = Math.round(Number(value));
+    const cleaned = typeof value === "string" ? value.replace(/,/g, "") : value;
+    const num = Number(cleaned);
+    const minutes = Math.round(num);
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
+    const label = `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
+    return label;
   };
 
   const labels = filteredDays.map((day) => day.date);
@@ -159,6 +162,7 @@ export default function DataGraph({
       {
         label: "moon data",
         hidden: !showMoonData,
+        tension: 0.4,
         data: filteredDays.map((day) => ({
           x: day.date,
           y: day.moonRiseTime,
