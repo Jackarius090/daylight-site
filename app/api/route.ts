@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
 
   console.log("fetching data...");
   try {
-    // instead of manking many api calls to gather data for 1 day every week for a year.
+    // instead of making many api calls to gather data for 1 day every week for a year.
     // This will gather time series data for 73 days at a time (the api limit is 90 days at one time and 365 devides nicely into 73 x 5), and then parse out the days needed.
 
     const urls = [];
@@ -60,10 +60,9 @@ export async function GET(request: NextRequest) {
       currentDate = add({ days: 73 }, currentDate);
     }
     data = await Promise.all(urls);
-    console.log(data[0].astronomy);
     console.log("data fetched");
 
-    // this takes the array of arrays that is received from the api call. It takes only the astronomy data and then flattens in the arrays into a single array.
+    // this takes the array of arrays that is received from the api call. It takes only the astronomy data and then flattens the arrays into a single array.
     data = {
       astronomy: data
         .map((threeMonthPeriod) => {
