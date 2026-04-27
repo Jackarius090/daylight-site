@@ -30,7 +30,7 @@ export default function ShowData() {
   const [recentlySearchedPlaces, setRecentlySearchedPlaces] = useState([
     "copenhagen",
   ]);
-  const [showMoonData, setShowMoonData] = useState(false);
+  const [showMoonData, setShowMoonData] = useState(true);
 
   const { data, refetch } = useQuery({
     queryKey: ["daylightTime", timeUnit],

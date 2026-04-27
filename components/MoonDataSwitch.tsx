@@ -20,6 +20,7 @@ export default function MoonDataSwitch({
           setShowMoonData(value);
         }}
         id="moon-data-switch"
+        defaultChecked
       />
       <Label htmlFor="moon-data-switch" className="text-primary-foreground">
         Show moon data
